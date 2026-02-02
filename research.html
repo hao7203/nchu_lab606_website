@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>研究領域 - 生物資訊演算與控制實驗室</title>
+    <style>
+        /* =========================================
+           基礎設定 (維持與其他頁面一致)
+           ========================================= */
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
+        header { background-color: #333; color: white; padding: 15px; text-align: center; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; transition: color 0.3s;}
+        nav a:hover { color: #00eaff; }
+        footer { text-align: center; padding: 20px; background-color: #333; color: gray; margin-top: 20px; }
+
+        /* 標題區塊 */
+        .page-title {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+        .page-title h2 {
+            color: #0056b3;
+            border-bottom: 3px solid #0056b3;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        /* =========================================
+           【關鍵】五大領域互動卡片 CSS
+           ========================================= */
+        .research-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+            display: flex;
+            flex-wrap: wrap;       /* 允許換行 */
+            justify-content: center; /* 讓卡片置中對齊 (若最後一行只有2個也會置中) */
+            gap: 30px;             /* 卡片之間的間距 */
+        }
+
+        /* 卡片本體 */
+        .research-card {
+            width: 350px;          /* 卡片寬度 */
+            height: 400px;         /* 卡片高度 (固定高度比較整齊) */
+            position: relative;    /* 讓內部的絕對定位元素以這裡為基準 */
+            border-radius: 15px;
+            overflow: hidden;      /* 圖片放大或文字滑出時，超出範圍的藏起來 */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background-color: #000; /* 背景黑底 */
+            cursor: pointer;
+        }
+
+        /* 1. 圖片層 */
+        .research-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;     /* 填滿卡片 */
+            transition: transform 0.5s ease; /* 圖片縮放動畫 */
+            opacity: 0.8;          /* 預設稍微暗一點 */
+        }
+
+        /* 2. 標題層 (預設顯示) */
+        .card-title {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+            transition: bottom 0.5s ease, opacity 0.3s ease;
+        }
+        .card-title h3 {
+            color: white;
+            font-size: 1.8em;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+            margin: 0;
+            background-color: rgba(0,0,0,0.3); /* 文字背景半透明黑條 */
+            padding: 10px 0;
+        }
+
+        /* 3. 詳細說明層 (預設隱藏) */
+        .card-details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 86, 179, 0.9); /* 藍色半透明遮罩 */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+            
+            /* 動畫設定：預設往下藏起來 (translateY 100%) */
+            transform: translateY(100%);
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .card-details h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid white;
+            padding-bottom: 5px;
+        }
+        .card-details p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           互動特效 (Hover / Active)
+           ========================================= */
+        
+        /* 當滑鼠移上去 (或是手機點擊) 時 */
+        .research-card:hover .card-details {
+            transform: translateY(0); /* 詳細說明往上滑出來 */
+        }
+
+        .research-card:hover img {
+            transform: scale(1.1);    /* 圖片稍微放大 */
+            opacity: 0.3;             /* 圖片變暗 */
+        }
+
+        .research-card:hover .card-title {
+            bottom: 50%;              /* 標題往上飛 (或直接隱藏) */
+            opacity: 0;               /* 標題消失，讓位給詳細說明 */
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>生物資訊演算與控制實驗室</h1>
+        <h3>Bioinformatic Computing & Control Lab</h3>
+        <nav>
+            <a href="index.html">首頁 (Home)</a>
+            <a href="professor.html">指導教授 (Professor)</a>
+            <a href="research.html" style="color: #ff9900;">研究領域 (Research)</a>
+            <a href="members.html">成員介紹 (Members)</a>
+            <a href="publications.html">發表著作 (Publications)</a>
+        </nav>
+    </header>
+
+    <div class="page-title">
+        <h2>主要研究領域 (Research Areas)</h2>
+        <p>滑鼠移至圖片(或點擊)可查看詳細內容</p>
+    </div>
+
+    <div class="research-container">
+
+        <div class="research-card">
+            <img src="goal/uav_control.jpg" alt="無人機控制">
+            
+            <div class="card-title">
+                <h3>無人機控制</h3>
+            </div>
+
+            <div class="card-details">
+                <h3>UAV Control</h3>
+                <p>
+                    專注於多旋翼機與定翼機的飛行控制演算法開發。
+                    結合強化學習 (RL) 、仿生演算法與各式控制演算法，實現異質載具協同作業、動態環境導航及抗強風干擾之強健控制。
+                </p>
+            </div>
+        </div>
+
+        <div class="research-card">
+            <img src="goal/Embedded Systems.jpg" alt="嵌入式系統">
+            <div class="card-title">
+                <h3>嵌入式系統</h3>
+            </div>
+            <div class="card-details">
+                <h3>Embedded Systems</h3>
+                <p>
+                    基於 ESP32、STM32 與 jetson 系列平台，實現各式系統與輕量化AI運算。整合無線電力傳輸 (WPT) 與高速通訊技術，開發應用於物聯網 (IoT) 與即時控制的高效能硬體系統。
+                </p>
+            </div>
+        </div>
+
+        <div class="research-card">
+            <img src="goal/Artificial Intelligence.jpg" alt="人工智慧">
+            <div class="card-title">
+                <h3>人工智慧</h3>
+            </div>
+            <div class="card-details">
+                <h3>Artificial Intelligence</h3> <p>
+                    結合電腦視覺與深度學習技術，解決複雜的感知與決策問題。重點包含小目標偵測、受遮蔽人臉辨識、3D 光達感測及強化學習在機器人控制上的應用。
+                </p>
+            </div>
+        </div>
+
+        <div class="research-card">
+            <img src="goal/Bio-medical Tech.jpg" alt="生醫科技">
+            <div class="card-title">
+                <h3>生醫科技</h3>
+            </div>
+            <div class="card-details">
+                <h3>Bio-medical Tech</h3>
+                <p>
+                    主打「非接觸式」生理訊號監測技術。利用影像處理與神經網路，實現遠端心率與呼吸偵測，並應用於智慧跑步機、氣壓床等健康照護與運動器材控制。
+                </p>
+            </div>
+        </div>
+
+        <div class="research-card">
+            <img src="goal/Audio Processing.jpg" alt="音訊處理">
+            <div class="card-title">
+                <h3>音訊處理</h3>
+            </div>
+            <div class="card-details">
+                <h3>Audio Processing</h3>
+                <p>
+                    專注於數位訊號處理 (DSP) 與適應性濾波演算法。研究主動式抗噪 (ANC)、語音增強與聲源定位技術，致力於提升通訊品質與人機互動的語音清晰度。
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Intelligent Control Lab. All rights reserved.</p>
+        <p>地址：國立中興大學電機資訊學院 606 實驗室</p>
+    </footer>
+
+</body>
+</html>

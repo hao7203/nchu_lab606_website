@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>發表著作 - 生物資訊演算與控制實驗室</title>
+    
+    <style>
+        /* =========================================
+           基礎設定
+           ========================================= */
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
+        header { background-color: #333; color: white; padding: 15px; text-align: center; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; transition: color 0.3s;}
+        nav a:hover { color: #00eaff; }
+        footer { text-align: center; padding: 20px; background-color: #333; color: gray; margin-top: 20px; }
+
+        .page-title {
+            text-align: center;
+            padding: 40px 20px 10px;
+        }
+        .page-title h2 {
+            color: #0056b3;
+            border-bottom: 3px solid #0056b3;
+            display: inline-block;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* =========================================
+           著作列表容器
+           ========================================= */
+        .pub-container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            font-size: 1.5em;
+            color: #333;
+            border-left: 6px solid #ff9900;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-header span {
+            font-size: 0.6em;
+            color: #777;
+            font-weight: normal;
+        }
+
+        /* 表格樣式 */
+        .pub-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        /* 表頭置中 */
+        .pub-table th {
+            background-color: #0056b3;
+            color: white;
+            padding: 12px 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        /* 表格內容置中 */
+        .pub-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* 欄位寬度設定 */
+        .col-year { width: 80px; font-weight: bold; color: #555; }
+        .col-author { width: 25%; color: #0056b3; font-weight: bold; }
+        .col-title { font-weight: normal; color: #333; }
+
+        /* 隔行變色 */
+        .pub-table tr:nth-child(even) { background-color: #f9f9f9; }
+        .pub-table tr:hover { background-color: #f1f8ff; }
+
+        /* === 【新增】More 按鈕樣式 === */
+        .more-btn-container {
+            display: flex;
+            justify-content: center; /* 按鈕置中 (若想靠右改成 flex-end) */
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed #eee; /* 上方加一條虛線區隔 */
+        }
+
+        .more-btn {
+            background-color: #0056b3;
+            color: white;
+            padding: 12px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px; /* 文字跟箭頭的距離 */
+        }
+        .more-btn:hover {
+            background-color: #003d82;
+            transform: translateY(-3px); /* 懸浮效果 */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        /* 手機版調整 */
+        @media (max-width: 600px) {
+            .pub-table, .pub-table tbody, .pub-table tr, .pub-table td {
+                display: block; width: 100%;
+            }
+            .pub-table thead { display: none; }
+            .pub-table tr {
+                margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px;
+                background-color: white !important; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            }
+            .pub-table td {
+                padding: 10px; border-bottom: none;
+                text-align: center;
+            }
+            .col-year { 
+                background-color: #eee; width: auto; display: inline-block; 
+                padding: 5px 10px; border-radius: 4px; margin-bottom: 10px;
+            }
+            .col-title { font-weight: bold; color: #333; padding: 5px 0; }
+            .col-author { color: #666; font-size: 0.9em; padding-bottom: 10px;}
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>生物資訊演算與控制實驗室</h1>
+        <h3>Bioinformatic Computing & Control Lab</h3>
+        <nav>
+            <a href="index.html">首頁 (Home)</a>
+            <a href="professor.html">指導教授 (Professor)</a>
+            <a href="research.html">研究領域 (Research)</a>
+            <a href="members.html">成員介紹 (Members)</a>
+            <a href="publications.html" style="color: #ff9900;">發表著作 (Publications)</a>
+        </nav>
+    </header>
+
+    <div class="page-title">
+        <h2>學術發表 (Publications)</h2>
+    </div>
+
+    <div class="pub-container">
+        <div class="section-header">
+            近五年碩博士論文 (Recent Theses & Dissertations)
+            <span>2020-2024 (Year 109-113)</span>
+        </div>
+        
+        <table class="pub-table">
+            <thead>
+                <tr>
+                    <th class="col-year">年份</th>
+                    <th>論文名稱 (Title)</th>
+                    <th class="col-author">學生 / 指導教授</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-year">113</td>
+                    <td class="col-title">組合式傾轉旋翼無人機母艦之飛控系統設計</td>
+                    <td class="col-author">李驊恩, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">113</td>
+                    <td class="col-title">基於強化學習的無人機群體協同作業與隊形控制系統研究</td>
+                    <td class="col-author">邱冠勛, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">113</td>
+                    <td class="col-title">基於分子化模型之多無人機群協同控制與路徑規劃</td>
+                    <td class="col-author">黃彥博, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">113</td>
+                    <td class="col-title">伴隨動態河流環境下的無人機自主定位與導航方法</td>
+                    <td class="col-author">巫柏俊, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">113</td>
+                    <td class="col-title">不同照度環境下非接觸式心率估測技術之研究與優化</td>
+                    <td class="col-author">陳威志, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">113</td>
+                    <td class="col-title">二輪電動機車的動態自平衡</td>
+                    <td class="col-author">林延榮, 林俊良</td>
+                </tr>
+
+                <tr>
+                    <td class="col-year">112</td>
+                    <td class="col-title">頻率調變通訊兼無線傳電之磁共振系統</td>
+                    <td class="col-author">郭聖詮, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">112</td>
+                    <td class="col-title">近場微波充電系統之研製</td>
+                    <td class="col-author">洪昇渝, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">112</td>
+                    <td class="col-title">基於非接觸式設備評估於跑步機上的疲勞狀態</td>
+                    <td class="col-author">陳怡璁, 林俊良/蘇武昌</td>
+                </tr>
+                <tr>
+                    <td class="col-year">112</td>
+                    <td class="col-title">基於可運算AI嵌入式系統之無人機抗干擾滑模控制</td>
+                    <td class="col-author">邱渭祐, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">112</td>
+                    <td class="col-title">基於區域損失計算之俯仰角人臉轉正</td>
+                    <td class="col-author">陳子濬, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">112</td>
+                    <td class="col-title">基於HJI及擴張狀態觀測器的四軸無人飛行器抗擾滑模控制</td>
+                    <td class="col-author">陳又嶺, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">112</td>
+                    <td class="col-title">利用影像心衝擊描記與臉部影像建立加護病房智慧自動疼痛評估系統</td>
+                    <td class="col-author">林祐生, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">112</td>
+                    <td class="col-title">雙向電力傳輸與資料通訊之磁共振無線充電系統</td>
+                    <td class="col-author">簡裔琪, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">112</td>
+                    <td class="col-title">綠色能源調度於互連微電網之減碳效益與成本分析</td>
+                    <td class="col-author">黃兆鋒, 林俊良</td>
+                </tr>
+
+                <tr>
+                    <td class="col-year">111</td>
+                    <td class="col-title">雙載具異質協同系統搭配影像慣導</td>
+                    <td class="col-author">王子銘, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">111</td>
+                    <td class="col-title">基於遠程光電容積脈搏波描記的跑步機運動熱量補償</td>
+                    <td class="col-author">劉育臣, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">111</td>
+                    <td class="col-title">基於遠程光電容積脈搏波描記的擬真跑步機系統設計</td>
+                    <td class="col-author">洪培鈞, 蘇武昌/林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">111</td>
+                    <td class="col-title">基於發布/訂閱模式與事件驅動網絡架構之群體無人機系統開發</td>
+                    <td class="col-author">黃文雋, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">111</td>
+                    <td class="col-title">基於生物行為之多無人機仿生編隊生成</td>
+                    <td class="col-author">賴家玄, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">111</td>
+                    <td class="col-title">基於一對多電容控制自適應類神經模糊補償之無線充電系統</td>
+                    <td class="col-author">楊稟睿, 林俊良</td>
+                </tr>
+
+                <tr>
+                    <td class="col-year">110</td>
+                    <td class="col-title">基於深度影像之受遮蔽臉部辨識</td>
+                    <td class="col-author">趙元呈, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">110</td>
+                    <td class="col-title">基於Transformer-CNN之小目標偵測</td>
+                    <td class="col-author">陳彥霖, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">110</td>
+                    <td class="col-title">利用低解析度3D光達及AI演算之人體活動辨識</td>
+                    <td class="col-author">張益誠, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">110</td>
+                    <td class="col-title">二輪驅動電動機車之模糊循跡控制</td>
+                    <td class="col-author">賴冠丞, 蘇武昌/林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">110</td>
+                    <td class="col-title">面向視覺心率估計的時空神經網絡研究 (博士論文)</td>
+                    <td class="col-author">黃斌, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">110</td>
+                    <td class="col-title">四軸飛行器運動目標跟蹤</td>
+                    <td class="col-author">李淳薰, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">110</td>
+                    <td class="col-title">具有中繼傳輸及磁場通信之適應性WPT系統 (博士論文)</td>
+                    <td class="col-author">高嘉璟, 林俊良</td>
+                </tr>
+
+                <tr>
+                    <td class="col-year">109</td>
+                    <td class="col-title">電動車之無感測電磁煞車與驅動控制整合 (博士論文)</td>
+                    <td class="col-author">涂嘉宏, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">109</td>
+                    <td class="col-title">理想物聯網的雛形實現</td>
+                    <td class="col-author">陳其宇, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">109</td>
+                    <td class="col-title">智慧無人機的設計與實現</td>
+                    <td class="col-author">陳文傑, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">109</td>
+                    <td class="col-title">應用於工具機主軸監測之無線感測模組研究</td>
+                    <td class="col-author">湯傑策, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">109</td>
+                    <td class="col-title">基於生物特徵加密之無線充電系統</td>
+                    <td class="col-author">王子謙, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">109</td>
+                    <td class="col-title">具心跳及呼吸監測功能之氣壓床設計</td>
+                    <td class="col-author">孫振泰, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">109</td>
+                    <td class="col-title">結合非接觸式生理監控為基礎之跑步機適應控制</td>
+                    <td class="col-author">洪濬宸, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">109</td>
+                    <td class="col-title">以非接觸生理監視技術為基礎之飛輪自適應控制</td>
+                    <td class="col-author">張哲銘, 林俊良</td>
+                </tr>
+                <tr>
+                    <td class="col-year">109</td>
+                    <td class="col-title">適應性磁共振無線充電系統設計</td>
+                    <td class="col-author">曾育倫, 林俊良</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="more-btn-container">
+            <a href="https://ndltd.ncl.edu.tw/cgi-bin/gs32/gsweb.cgi/login?ssoauth=1&loadingjs=1&o=dwebmge&cache=1770027991344" target="_blank" class="more-btn">
+                更多歷年著作 (More Publications) &raquo;
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Intelligent Control Lab. All rights reserved.</p>
+        <p>地址：國立中興大學電機資訊學院 606 實驗室</p>
+    </footer>
+
+</body>
+</html>

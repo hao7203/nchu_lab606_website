@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>成員介紹 - 生物資訊演算與控制實驗室</title>
+    
+    <style>
+        /* =========================================
+           基礎設定 (維持一致風格)
+           ========================================= */
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
+        header { background-color: #333; color: white; padding: 15px; text-align: center; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; transition: color 0.3s;}
+        nav a:hover { color: #00eaff; }
+        footer { text-align: center; padding: 20px; background-color: #333; color: gray; margin-top: 20px; }
+
+        /* 標題區塊 */
+        .page-title {
+            text-align: center;
+            padding: 40px 20px 10px;
+        }
+        .page-title h2 {
+            color: #0056b3;
+            border-bottom: 3px solid #0056b3;
+            display: inline-block;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* =========================================
+           成員區塊樣式
+           ========================================= */
+        .group-container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 0 auto 40px auto; /* 區塊間距 */
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        /* 分組標題 (例如：博士班) */
+        .group-title {
+            font-size: 1.5em;
+            color: #333;
+            border-left: 5px solid #0056b3; /* 左側藍條 */
+            padding-left: 15px;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        /* 成員列表網格 (Grid) */
+        .member-grid {
+            display: flex;
+            flex-wrap: wrap;       /* 超過寬度自動換行 */
+            gap: 40px;             /* 成員之間的間距 */
+            justify-content: flex-start; /* 靠左對齊 (若想置中可改 center) */
+        }
+
+        /* 單個成員卡片 */
+        .member-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;   /* 內容置中 */
+            width: 150px;          /* 卡片寬度固定 */
+            text-align: center;
+        }
+
+        /* 成員照片 (圓形) */
+        .member-photo {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;     /* 填滿圓形不變形 */
+            border-radius: 50%;    /* 變成圓形 */
+            border: 4px solid #f0f0f0;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        /* 滑鼠移過去照片放大一點 */
+        .member-card:hover .member-photo {
+            transform: scale(1.05);
+            border-color: #0056b3;
+        }
+
+        /* 成員名字 */
+        .member-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 5px;
+        }
+        
+        /* email 或其他資訊 (選填) */
+        .member-info {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        /* 手機版調整 */
+        @media (max-width: 600px) {
+            .member-grid {
+                justify-content: center; /* 手機版改為置中比較好看 */
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>生物資訊演算與控制實驗室</h1>
+        <h3>Bioinformatic Computing & Control Lab</h3>
+        <nav>
+            <a href="index.html">首頁 (Home)</a>
+            <a href="professor.html">指導教授 (Professor)</a>
+            <a href="research.html">研究領域 (Research)</a>
+            <a href="members.html" style="color: #ff9900;">成員介紹 (Members)</a>
+            <a href="publications.html">發表著作 (Publications)</a>
+        </nav>
+    </header>
+
+    <div class="page-title">
+        <h2>實驗室成員 (Lab Members)</h2>
+    </div>
+
+    <div class="group-container">
+        <div class="group-title">博士班 (Ph.D. Students)</div>
+        <div class="member-grid">
+            
+            <div class="member-card">
+                <img src="teacher.jpg" alt="博士生1" class="member-photo">
+                <div class="member-name">1</div>
+            </div>
+
+            <div class="member-card">
+                <img src="teacher.jpg" alt="博士生2" class="member-photo">
+                <div class="member-name">2</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="group-container">
+        <div class="group-title">碩士班二年級 (Master Students - Year 2)</div>
+        <div class="member-grid">
+            
+            <div class="member-card">
+                <img src="teacher.jpg" alt="碩二生1" class="member-photo">
+                <div class="member-name">3</div>
+            </div>
+
+            <div class="member-card">
+                <img src="teacher.jpg" alt="碩二生2" class="member-photo">
+                <div class="member-name">4</div>
+            </div>
+
+            <div class="member-card">
+                <img src="teacher.jpg" alt="碩二生3" class="member-photo">
+                <div class="member-name">5</div>
+            </div>
+            
+            <div class="member-card">
+                <img src="teacher.jpg" alt="碩二生4" class="member-photo">
+                <div class="member-name">6</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="group-container">
+        <div class="group-title">碩士班一年級 (Master Students - Year 1)</div>
+        <div class="member-grid">
+            
+            <div class="member-card">
+                <img src="teacher.jpg" alt="碩一生1" class="member-photo">
+                <div class="member-name">7</div>
+            </div>
+
+            <div class="member-card">
+                <img src="teacher.jpg" alt="碩一生2" class="member-photo">
+                <div class="member-name">8</div>
+            </div>
+
+            <div class="member-card">
+                <img src="teacher.jpg" alt="碩一生3" class="member-photo">
+                <div class="member-name">9</div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Intelligent Control Lab. All rights reserved.</p>
+        <p>地址：國立中興大學電機資訊學院 606 實驗室</p>
+    </footer>
+
+</body>
+</html>
