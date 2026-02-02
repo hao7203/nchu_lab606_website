@@ -203,11 +203,12 @@
             </div>
             
             <div class="research-topics">
-                Main Research:<br> <a href="research.html" class="topic-highlight">無人機控制</a> | 
-                <a href="research.html" class="topic-highlight">嵌入式系統</a> | 
-                <a href="research.html" class="topic-highlight">人工智慧</a> | 
-                <a href="research.html" class="topic-highlight">生醫科技</a> | 
-                <a href="research.html" class="topic-highlight">音訊處理</a>
+                Main Research:<br> 
+                <a href="research.html" class="topic-highlight" onclick="skipIntro()">無人機控制</a> | 
+                <a href="research.html" class="topic-highlight" onclick="skipIntro()">嵌入式系統</a> | 
+                <a href="research.html" class="topic-highlight" onclick="skipIntro()">強健控制</a> | 
+                <a href="research.html" class="topic-highlight" onclick="skipIntro()">生醫科技</a> | 
+                <a href="research.html" class="topic-highlight" onclick="skipIntro()">音訊處理</a>
             </div>
         </div>
 
@@ -325,6 +326,10 @@
         if (currentSlideIndex < 0) { currentSlideIndex = slides.length - 1; }
         slides[currentSlideIndex].classList.add('current-slide');
         dots[currentSlideIndex].classList.add('current-indicator');
+    }
+    // 新增這個函式：當點擊研究領域連結時，直接標記已看過動畫
+    function skipIntro() {
+        sessionStorage.setItem('introPlayed', 'true');
     }
 </script>
 </body>
