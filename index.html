@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>生物資訊演算與控制實驗室 (Intelligent Control Lab)</title>
+    
+    <style>
+        /* =========================================
+           基礎網站設定
+           ========================================= */
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; overflow-x: hidden; }
+        header { background-color: #333; color: white; padding: 15px; text-align: center; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; transition: color 0.3s;}
+        nav a:hover { color: #00eaff; }
+        .container { width: 80%; margin: 20px auto; background-color: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        h2 { border-bottom: 2px solid #333; padding-bottom: 10px; color: #0056b3; }
+        footer { text-align: center; padding: 20px; background-color: #333; color: gray; margin-top: 20px; }
+
+        /* =========================================
+           開場動畫 CSS
+           ========================================= */
+        #intro-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999;
+            background-color: #000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+            overflow: hidden;
+        }
+        .bg-slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 1; }
+        .slide-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: contain; background-repeat: no-repeat; background-position: center;
+            opacity: 0; animation: slideAnimation 60s infinite; 
+        }
+        /* 開場動畫照片設定 */
+        .slide-img:nth-child(1) { background-image: url('front_cover/lab-bg1.jpg'); animation-delay: 4s; }
+        .slide-img:nth-child(2) { background-image: url('front_cover/lab-bg2.jpg'); animation-delay: 9s; }
+        .slide-img:nth-child(3) { background-image: url('front_cover/lab-bg3.jpg'); animation-delay: 14s; }
+        .slide-img:nth-child(4) { background-image: url('front_cover/lab-bg4.jpg'); animation-delay: 19s; }
+        .slide-img:nth-child(5) { background-image: url('front_cover/lab-bg5.jpg'); animation-delay: 24s; }
+        .slide-img:nth-child(6) { background-image: url('front_cover/lab-bg6.jpg'); animation-delay: 29s; }
+        .slide-img:nth-child(7) { background-image: url('front_cover/lab-bg7.jpg'); animation-delay: 34s; }
+        .slide-img:nth-child(8) { background-image: url('front_cover/lab-bg8.jpg'); animation-delay: 39s; }
+        .slide-img:nth-child(9) { background-image: url('front_cover/lab-bg9.jpg'); animation-delay: 44s; }
+        .slide-img:nth-child(10) { background-image: url('front_cover/lab-bg10.jpg'); animation-delay: 49s; }
+
+        .overlay-gradient { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.95) 100%); z-index: -1; }
+        .logo-stage { position: absolute; display: flex; justify-content: center; align-items: center; width: 300px; height: 300px; clip-path: circle(0% at center); animation: circleReveal 2s ease-out forwards, logoFadeOut 0.5s ease-in 3s forwards; z-index: 10; }
+        .nchu-logo { width: 100%; height: auto; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
+        .electronic-stage { position: relative; opacity: 0; display: flex; flex-direction: column; align-items: center; animation: stageFadeIn 0.1s linear 3.5s forwards, moveUpStage 1s ease-in-out 5.5s forwards; }
+        .title-wrapper { position: relative; padding: 40px 60px; margin-bottom: 30px; }
+        .electronic-box { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 2px solid #00eaff; box-shadow: 0 0 15px #00eaff, inset 0 0 15px #00eaff; transform: scaleX(0); animation: boxExpand 0.8s cubic-bezier(0.19, 1, 0.22, 1) 3.5s forwards; }
+        .intro-text-tech { color: white; font-size: 2.5em; font-weight: bold; letter-spacing: 2px; text-align: center; position: relative; z-index: 2; text-shadow: 0 0 10px #00eaff; opacity: 0; animation: textGlowIn 1s ease-out 4.3s forwards; margin: 0; }
+        .research-topics { color: #ccc; font-size: 1.2em; text-align: center; position: relative; z-index: 2; opacity: 0; letter-spacing: 1px; animation: textGlowIn 1s ease-out 6.5s forwards; }
+        .topic-highlight { color: #ff9900; font-weight: bold; margin: 0 10px; }
+        .scroll-btn-container { position: absolute; bottom: 50px; display: flex; flex-direction: column; align-items: center; cursor: pointer; opacity: 0; animation: textGlowIn 1s ease-out 7s forwards; z-index: 10; }
+        .arrow-down { width: 20px; height: 20px; border-right: 3px solid #00eaff; border-bottom: 3px solid #00eaff; transform: rotate(45deg); margin: -5px 0; animation: bounce 2s infinite; filter: drop-shadow(0 0 5px #00eaff); }
+        .arrow-down:nth-child(2) { animation-delay: 0.2s; }
+        .btn-text { color: white; margin-top: 15px; font-size: 1.2em; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 5px #00eaff; }
+
+        /* Animation Keyframes */
+        @keyframes circleReveal { to { clip-path: circle(75% at center); } }
+        @keyframes logoFadeOut { to { opacity: 0; transform: scale(1.1); } }
+        @keyframes stageFadeIn { to { opacity: 1; } }
+        @keyframes boxExpand { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+        @keyframes textGlowIn { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
+        @keyframes moveUpStage { to { transform: translateY(-50px); } }
+        @keyframes slideAnimation { 0% { opacity: 0; } 1% { opacity: 1; } 7% { opacity: 1; } 8% { opacity: 0; } 100% { opacity: 0; } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: rotate(45deg) translate(0, 0); } 40% { transform: rotate(45deg) translate(-10px, -10px); } 60% { transform: rotate(45deg) translate(-5px, -5px); } }
+        
+        /* === 活動照片輪播 CSS (已優化) === */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 500px;
+            background-color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .carousel-track-container {
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0; bottom: 0; width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+
+        .carousel-slide.current-slide {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .carousel-slide img {
+            width: 100%; height: 100%;
+            object-fit: contain; /* 保持比例 */
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 10; /* 確保箭頭在最上層 */
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .carousel-btn:hover { background: rgba(0, 0, 0, 0.8); }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; } /* 修正：不需要旋轉，直接用符號 */
+
+        /* 下方圓點 */
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            flex-wrap: wrap; /* 修正：如果圓點太多，自動換行，不會擠爆 */
+        }
+
+        .carousel-indicator {
+            border: 0;
+            border-radius: 50%;
+            width: 10px; height: 10px;
+            background: #ccc;
+            margin: 5px; /* 增加一點間距 */
+            cursor: pointer;
+        }
+
+        .carousel-indicator.current-indicator {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="intro-screen" onwheel="handleScroll(event)">
+        <div class="bg-slideshow">
+            <div class="slide-img"></div> <div class="slide-img"></div> <div class="slide-img"></div> <div class="slide-img"></div> <div class="slide-img"></div>
+            <div class="slide-img"></div> <div class="slide-img"></div> <div class="slide-img"></div> <div class="slide-img"></div> <div class="slide-img"></div>
+        </div>
+        <div class="overlay-gradient"></div> 
+        <div class="logo-stage"><img src="nchu.png" class="nchu-logo" alt="NCHU Logo"></div>
+        <div class="electronic-stage">
+            <div class="title-wrapper"><div class="electronic-box"></div><h1 class="intro-text-tech">生物資訊演算與控制實驗室</h1></div>
+            <div class="research-topics">Main Research: <span class="topic-highlight">無人機控制</span> | <span class="topic-highlight">嵌入式系統</span> | <span class="topic-highlight">強健控制</span> | <span class="topic-highlight">生醫科技</span> | <span class="topic-highlight">音訊處理</span></div>
+        </div>
+        <div class="scroll-btn-container" onclick="enterSite()">
+            <div class="arrow-down"></div><div class="arrow-down"></div><div class="btn-text">Learn more</div>
+        </div>
+    </div>
+
+    <header id="home-section">
+        <h1>生物資訊演算與控制實驗室</h1>
+        <h3>Intelligent Control Laboratory</h3>
+        <nav>
+            <a href="#">首頁 (Home)</a>
+            <a href="professor.html">指導教授 (Professor)</a>
+            <a href="#">研究領域 (Research)</a>
+            <a href="#">成員介紹 (Members)</a>
+            <a href="#">榮譽事蹟 (Award)</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>實驗室簡介 (About Us)</h2>
+        <p>歡迎來到生物資訊演算與控制實驗室。在這裡，我們將抽象的數學理論轉化為真實的物理運動。實驗室目前專注於<b>無人機控制 (UAV Control)</b>、<b>嵌入式系統</b>、<b>強健控制理論</b>、<b>生醫科技</b>和<b>音訊處理</b>等領域的研究。</p>
+        <p>我們的願景是將尖端的控制理論轉化為高強健性的演算法，並實踐於各種飛行載具與嵌入式平台中，解決複雜環境下的工程挑戰。</p>
+    </div>
+
+    <div class="container">
+        <h2>最新消息 (News)</h2>
+        <ul>
+            <li>2026/01/25 - 恭喜實驗室成員通過碩士論文口試！</li>
+            <li>2025/12/01 - 實驗室新購置 ESP32 開發套件與光流感測器。</li>
+            <li>2025/09/01 - 歡迎 114 學年度新生加入實驗室。</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>活動照片 (Gallery)</h2>
+        
+        <div class="carousel-container">
+            <button class="carousel-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="carousel-btn next-btn" onclick="moveSlide(1)">&#10095;</button> <div class="carousel-track-container">
+                <ul class="carousel-track">
+                    <li class="carousel-slide current-slide"><img src="front_cover/lab-bg1.jpg" alt="活動照片1"></li>
+                    <li class="carousel-slide"><img src="front_cover/lab-bg2.jpg" alt="活動照片2"></li>
+                    <li class="carousel-slide"><img src="front_cover/lab-bg3.jpg" alt="活動照片3"></li>
+                    <li class="carousel-slide"><img src="front_cover/lab-bg4.jpg" alt="活動照片4"></li>
+                    <li class="carousel-slide"><img src="front_cover/lab-bg5.jpg" alt="活動照片5"></li>
+                    <li class="carousel-slide"><img src="front_cover/lab-bg6.jpg" alt="活動照片6"></li>
+                    <li class="carousel-slide"><img src="front_cover/lab-bg7.jpg" alt="活動照片7"></li>
+                    <li class="carousel-slide"><img src="front_cover/lab-bg8.jpg" alt="活動照片8"></li>
+                    <li class="carousel-slide"><img src="front_cover/lab-bg9.jpg" alt="活動照片9"></li>
+                    <li class="carousel-slide"><img src="front_cover/lab-bg10.jpg" alt="活動照片10"></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="carousel-nav"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Intelligent Control Lab. All rights reserved.</p>
+        <p>地址：國立中興大學電機資訊學院 606 實驗室</p>
+    </footer>
+
+<script>
+    // 1. 開場動畫邏輯
+    if (sessionStorage.getItem('introPlayed') === 'true') {
+        var intro = document.getElementById('intro-screen');
+        intro.style.display = 'none';
+    }
+
+    let introLocked = false;
+
+    function handleScroll(event) {
+        var intro = document.getElementById('intro-screen');
+        if (intro.style.display !== 'none' && event.deltaY > 0) {
+            enterSite();
+        }
+    }
+
+    function enterSite() {
+        if (introLocked) return;
+        introLocked = true;
+        const intro = document.getElementById('intro-screen');
+        const target = document.getElementById('home-section');
+        if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+        intro.style.transform = 'translateY(-100vh)';
+        intro.style.opacity = '0';
+        sessionStorage.setItem('introPlayed', 'true');
+        setTimeout(function() { intro.style.display = 'none'; }, 1000);
+    }
+
+    // === 2. 輪播功能 JavaScript (自動產生圓點版) ===
+    
+    // 抓取所有的 slide
+    const slides = document.querySelectorAll('.carousel-slide');
+    const navContainer = document.querySelector('.carousel-nav');
+    let currentSlideIndex = 0;
+    let dots = []; // 用來存生成的圓點
+
+    // 【關鍵步驟】初始化：自動生成圓點
+    // 這樣不管你有 3 張還是 100 張照片，圓點都會自己跑出來
+    slides.forEach((slide, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('carousel-indicator');
+        if (index === 0) dot.classList.add('current-indicator'); // 第一個點設為選中
+        
+        // 設定點擊事件
+        dot.addEventListener('click', () => {
+            jumpToSlide(index);
+        });
+
+        navContainer.appendChild(dot); // 放到 HTML 裡
+        dots.push(dot); // 存到陣列方便管理
+    });
+
+    // 切換上一張/下一張 (n = -1 或 1)
+    function moveSlide(n) {
+        showSlide(currentSlideIndex + n);
+    }
+
+    // 跳轉到特定張
+    function jumpToSlide(n) {
+        showSlide(n);
+    }
+
+    // 核心顯示邏輯
+    function showSlide(n) {
+        // 移除目前的 active class
+        slides[currentSlideIndex].classList.remove('current-slide');
+        dots[currentSlideIndex].classList.remove('current-indicator');
+
+        // 計算新的索引
+        currentSlideIndex = n;
+
+        // 循環邏輯：如果超過最後一張，回到第一張
+        if (currentSlideIndex >= slides.length) {
+            currentSlideIndex = 0;
+        }
+        // 如果小於第一張，跳到最後一張
+        if (currentSlideIndex < 0) {
+            currentSlideIndex = slides.length - 1;
+        }
+
+        // 加上 active class 顯示新的照片
+        slides[currentSlideIndex].classList.add('current-slide');
+        dots[currentSlideIndex].classList.add('current-indicator');
+    }
+</script>
+</body>
+</html>

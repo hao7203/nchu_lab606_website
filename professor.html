@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>指導教授 - 生物資訊演算與控制實驗室</title>
+    
+    <style>
+        /* =========================================
+           基本排版設定
+           ========================================= */
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
+        header { background-color: #333; color: white; padding: 15px; text-align: center; }
+        
+        /* 導覽列 */
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; transition: color 0.3s;}
+        nav a:hover { color: #00eaff; }
+        
+        /* 通用內容容器 (給經歷、著作用的) */
+        .container { width: 80%; margin: 30px auto; background-color: white; padding: 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; line-height: 1.6; }
+        h2 { border-bottom: 2px solid #333; padding-bottom: 10px; color: #0056b3; margin-top: 0; }
+        
+        /* =========================================
+           【關鍵修改】指導教授專屬 Hero 區塊 (放大置中版)
+           ========================================= */
+        .professor-hero {
+            width: 90%;             /* 比下面的內容更寬 */
+            max-width: 1100px;      /* 限制最大寬度 */
+            margin: 40px auto;      /* 上下間距加大 */
+            background-color: white;
+            padding: 50px;          /* 內距加大，更有呼吸感 */
+            border-radius: 15px;    /* 圓角加大 */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* 更強烈的立體陰影 */
+            border-top: 6px solid #0056b3; /* 頂部藍色裝飾線 */
+            display: flex;
+            align-items: center;    /* 垂直置中 */
+            justify-content: center;/* 水平置中 */
+            gap: 60px;              /* 照片與文字的距離加大 */
+        }
+
+        /* 教授照片放大 */
+        .hero-photo {
+            width: 240px;           /* 寬度放大 */
+            height: 240px;          /* 高度放大 */
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid #0056b3; /* 邊框加粗 */
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            flex-shrink: 0;         /* 防止照片被壓縮 */
+        }
+
+        /* 教授文字放大 */
+        .hero-info h3 {
+            font-size: 2.5em;       /* 名字超大 */
+            margin: 0 0 20px 0;
+            color: #333;
+            border-bottom: none;    /* 移除 h3 可能繼承的底線 */
+        }
+        
+        .hero-info p {
+            font-size: 1.25em;      /* 內文放大 */
+            margin: 12px 0;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .hero-info strong {
+            color: #0056b3;         /* 標題變藍色 */
+            display: inline-block;
+            width: 100px;           /* 讓冒號對齊 (可選) */
+        }
+
+        /* =========================================
+           其他樣式 (列表、按鈕)
+           ========================================= */
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+
+        .publication-list { list-style-type: decimal; padding-left: 40px; } 
+        .publication-list li { margin-bottom: 15px; border-bottom: 1px dashed #eee; padding-bottom: 10px; color: #444; }
+        .publication-list li:last-child { border-bottom: none; }
+        .publication-list i { color: #0056b3; font-weight: bold; }
+
+        .more-btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 2px solid #f4f4f4;
+        }
+
+        .more-btn {
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+        .more-btn:hover {
+            background-color: #003d82;
+            transform: translateY(-2px);
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* 手機版適應 (變成垂直排列) */
+        @media (max-width: 800px) { 
+            .professor-hero { 
+                flex-direction: column; 
+                text-align: center; 
+                padding: 30px;
+                gap: 30px;
+            }
+            .hero-info strong { display: inline; width: auto; } /* 手機版取消對齊 */
+            .hero-info p { text-align: left; display: inline-block; } /* 文字盡量靠左讀 */
+            .container { width: 90%; padding: 20px; }
+        }
+        
+        footer { text-align: center; padding: 20px; background-color: #333; color: gray; margin-top: 20px; }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>生物資訊演算與控制實驗室</h1>
+        <h3>Intelligent Control Laboratory</h3>
+        <nav>
+            <a href="index.html">首頁 (Home)</a>
+            <a href="professor.html" style="color: #ff9900;">指導教授 (Professor)</a>
+            <a href="#">研究領域 (Research)</a>
+            <a href="#">成員介紹 (Members)</a>
+            <a href="#">榮譽事蹟 (Award)</a>
+        </nav>
+    </header>
+
+    <div class="professor-hero">
+        <img src="teacher.jpg" alt="林俊良教授" class="hero-photo">
+        <div class="hero-info">
+            <h3>林俊良 博士 (Dr. Chun-Liang Lin)</h3> 
+            <p><strong>最高學歷：</strong>國立成功大學航太工程博士</p>
+            <p><strong>現任職務：</strong>國立中興大學 中興講座教授</p>
+            <p><strong>研究領域：</strong>控制系統數學、生物辨識、導引/導航與控制、能源控制</p>
+            <p><strong>電子郵件：</strong>chunlin@dragon.nchu.edu.tw</p>
+            <p><strong>聯絡電話：</strong>+886-4-22851549 #708</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>重要經歷 (Experience)</h2>
+        <ul>
+            <li>國立中興大學副校長 (2021/2~2023/7)</li>
+            <li>國家太空中心主任 (2018/2~2021/1)</li>
+            <li>國立中興大學副校長 (2017~2018)</li>
+            <li>科技部控制學門召集人 (2016~2018)</li>
+            <li>國立中興大學中興講座教授 (2015~)</li>
+            <li>國立中興大學副校長 (2012~2015)</li>
+            <li>國立中興大學產學營運總中心主任 (2014~2015)</li>
+            <li>國立中興大學校友中心主任 (2013~2015)</li>
+            <li>國立中興大學講座教授 (2011~2015)</li>
+            <li>國立中興大學特聘教授 (2007~2011)</li>
+            <li>國立中興大學電機系主任 (2008~2010)</li>
+            <li>國立中興大學研發處副研發長 (2006~2008)</li>
+            <li>國立中興大學頂尖大學計畫執行秘書 (2005~2006)</li>
+            <li>國立中興大學研發處學術發展組組長 (2004~2006)</li>
+            <li>國立中興大學教授 (2003~2007)</li>
+            <li>逢甲大學自控系副教授, 教授 (1995~2003)</li>
+            <li>中科院助理研究員 (1991~1995)</li>
+            <li>應機電子公司設計工程師 (1983~1985)</li>
+            <li>林電機公司電子工程師 (1982~1983)</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>榮譽獎勵 (Honors & Awards)</h2>
+        <ul>
+            <li>史丹福大學全球前2%頂尖科學家 (2021、2022)</li>
+            <li>中華民國自動控制學會卓越服務貢獻獎 (2021)</li>
+            <li>中興大學產學合作優良獎 (2010、2013、2017)</li>
+            <li>中興大學特別貢獻獎 (2008)</li>
+            <li>中興大學特別貢獻獎 (2006)</li>
+            <li>國科會(科技部)傑出特約研究員獎</li>
+            <li>國科會(科技部)傑出研究員獎 (2000、2002、2011)</li>
+            <li>教育部師鐸獎表揚狀 (2015)</li>
+            <li>教育部第五十八屆學術獎 (2014)</li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <h2>學術服務 (Academic Service)</h2>
+        <ul>
+            <li>Supervisor-Member of Board of Governors (BoGs): IEEE Taipei Section (2017~2018)</li>
+            <li>Vice President, Chinese Automatic Control Society (2016~)</li>
+            <li>Member of Board of Governors (BoGs): Chinese Automatic Control Society (2006~)</li>
+            <li>Director-Member of Board of Governors (BoGs): IEEE Taipei Section (2015~2016)</li>
+            <li>Chair: IEEE Control Systems Society, Taipei Chapter (2012~2015)</li>
+            <li>Chair: IEEE Control Systems Society, Taipei Chapter (2009~2011)</li>
+            <li>Vice Chair: IEEE Control Systems Society, Taipei Chapter (2003-2005)</li>
+            <li>Technical Committee Member-International Association of Science and Technology for Development (IASTED) (2004~)</li>
+            <li>Organizing Committee Member-IEEE Conference on Industrial Electronics and Applications (ICIEA) (2009, 2010, 2011, 2012)</li>
+            <li>Fuzzy Systems Technical Committee Member: IEEE Computational Intelligence Society (CIS) (2013~).</li>
+            <li>Program Committee Member: 2004 IEEE International Conference on Control Applications (Taipei)</li>
+            <li>Best Paper Award Chair: 2005 International Conference on Automation Technology (Taichung)</li>
+            <li>Best Paper Award Chair: 2007 CACS International Automatic Control Conference (Taiwan)</li>
+            <li>Invited Session Speaker: 2010 IEEE International Conference on Control & Automation (ICCA’10) (Xiamen)</li>
+            <li>General Chair: 2010 IEEE Conference on Industrial Electronics and Applications (ICIEA’10) (Taichung)</li>
+            <li>International Advisory Committee Member: 2011 IEEE Conference on Industrial Electronics and Applications (ICIEA’11) (Beijing)</li>
+            <li>Workshop Chair: 2011 Asian Control Conference (ASCC’11) (Kaohsiung)</li>
+            <li>Program Committee Member: 2011 Asian Control Conference (ASCC’11) (Kaohsiung)</li>
+            <li>Program Committee Member: 2011 IEEE International Symposium on Intelligent Control (ISIC’11) (Denver)</li>
+            <li>Invited Speaker/Organizer: 2010 Workshop on Recent Advances in Control and Robotics, IEEE Control Systems Society, Taipei Chapter (Taichung)</li>
+            <li>Invited Speaker: 2010 Workshop of Dynamics and Control for Biological Systems, Chinese Academy of Sciences (Shanghai)</li>
+            <li>Invited Speaker: 2011 Symposium of Cutting-edge Engineering Education through Introducing Practice-Based Active Learning (Nagoya)</li>
+            <li>Program Committee Member: The 30th Chinese Conference (CCC’11) (Yantai)</li>
+            <li>Program Committee Member: The 31th Chinese Conference (CCC’12) (Hefei)</li>
+            <li>General Chair: 2011 Symposium for Control Program of NSC/SIRCon2011 (Taichung)</li>
+            <li>Program Co-Chair: 2012 National Symposium on System Science and Engineering (NSSSE’12) (Keelung)</li>
+            <li>Technical Program Committee Member: IEEE TENCON 2012</li>
+            <li>Workshop Speaker: IEEE Multi-Conference on Systems and Control (IEEE MSC 2012) (Duvornick)</li>
+            <li>Program Co-Chair: 2013 National Symposium on System Science and Engineering (NSSSE’13) (Taipei)</li>
+            <li>Program Committee Member: The 2nd International Conference on Robot Intelligence Technology and Applications 2013 (RiTA2013) (Denver)</li>
+            <li>Fuzzy Systems Technical Committee Member: 2013 IEEE Computational Intelligence Society (CIS).</li>
+            <li>Fuzzy Systems Technical Committee Member: 2014 IEEE Computational Intelligence Society (CIS).</li>
+            <li>Invited Speaker: 2013 Joint Workshop on Systems and Control (Nanzan University, Nagoya)</li>
+            <li>Invited speaker. 2013 Wiley Author Workshop, Dec. 12, 2013 (Taichung)</li>
+            <li>Program Committee Member: 2014 IEEE International Conference on Fuzzy Systems (Beijing)</li>
+            <li>General Chair: 2014 IEEE Conference on Control & Automation Industrial Electronics and Applications (ICCA’14) (Taichung)</li>
+            <li>Research Project Evaluation Committee Member. Latvian Science Council, Lativia (2012~).</li>
+            <li>Steering Committee Member-International Research-Intensive Center of Excellence (I-RICE), MOST, TAIWAN (2013~2016)</li>
+            <li>Program Committee Member-2014 International Conference on Computer and Communication Technology (ICCCT’14), (Paris, France)</li>
+            <li>Organizer: 2014 Workshop on Advances in Nonlinear Dynamical Systems and Robotics, June 17, 2014, IEEE Control Systems Society, Taipei Chapter (Taichung).</li>
+            <li>Guest Speaker: 2015 Symposium of “Towards a Smart Future-Infinite Evolution”, March 2, 2015 (Garden Hotel, Taipei)</li>
+            <li>Organizing Committee Member, International Conference and Exhibition on Control System, November 03-05, 2015 (Beijing, China).</li>
+            <li>Technical Program Committee Member, IEEE International Conference on Computing, Communication & Automation, May 15-16, 2015 (Greater Noida, India)</li>
+            <li>Program Committee Member, International Conference on Computer and Computational Sciences (ICCCA-2015), 2015 (Uttar Pradesh, India)</li>
+            <li>Program Committee Member - 2015 IEEE International Conference on Fuzzy Systems (FUZZ-IEEE 2015), 2015 (Istanbul, Turkey)</li>
+            <li>Program Committee Member, International Conference on Computer and Computational Sciences (ICCCA-2016), 2016 (Uttar Pradesh, India)</li>
+            <li>Distinguished Invited Lecturer-IEEE International Conference of Industrial Electronics and Applications (ICIEA 2016), 2016 (Heifei)</li>
+            <li>Keynote Speaker-銀髮智慧生活與健康照護研討會, 2016 (Changhua)</li>
+            <li>Best Paper Award Chair: 2016 CACS International Automatic Control Conference (Taiwan)</li>
+            <li>Program Committee Member, International Conference on Computer and Computational Sciences (ICCCA-2017), 2017 (Uttar Pradesh)</li>
+            <li>Keynote Speaker, National Symposium on System Science and Engineering, 2017 (Taipei)</li>
+            <li>General Co-Chair, NSSSE 2017, 2017 (Taipei)</li>
+            <li>Keynote Speaker-科技部大眾科學教育專題講座-分享大師視野, 2017 (國立自然科學博物館)</li>
+            <li>Keynote Speaker, The 12th Intelligent Living Technology Conference, 2017 (Taichung)</li>
+            <li>Technical Committee Member, IEEE Congress on Evolutionary Computation, 2018 (Brazil)</li>
+            <li>General Chair, The 4th International Conference on GPS Radio Occultation, 2018 (Taipei)</li>
+            <li>General Chair, Astronautical Exploration Technology Workshop, 2018 (Hsinchu)</li>
+            <li>Keynote Speaker, 2018 Up3 to Space International Symposium, 2018 (Tainan)</li>
+            <li>Keynote Speaker, 科技部2018秋季「展望」系列演講, 2018 (Taipei)</li>
+            <li>Invited Speaker, 中華民國航空測量及遙感探測學會會員大會, 2018 (Taipei)</li>
+            <li>Invited Speaker, Taipei Conference of International Air and Space Law, 2019 (Taipei)</li>
+            <li>Keynote Speaker, The 10th Asian-Pacific Conference on Aerospace Technology and Science &The 4th Asian Joint Symposium on Aerospace Engineering, 2019 (Hsinchu)</li>
+            <li>Technical Committee Member, International Conference on Advances in Artificial Intelligence (ICAAI), 2019 (Istanbul, Turkey)</li>
+            <li>General Chair, International Conference on Astronautics and Space Exploration (iCASE), 2019 (Hsinchu)</li>
+            <li>Invited Speaker, PeruSAT-1: Lecciones Aprendidas-2019, Nov. 26, 2019 (Lima, Peru)</li>
+            <li>Invited Speaker, Space Agency of Paraguay, Nov. 2019 (Asuncion, Paraguay)</li>
+            <li>Advisory Committee Member, IEEE International Conference of Industrial Electronics and Applications (ICIEA), 2020 (Kristiansand, Norway)</li>
+            <li>Honorary Chair of Program Committee, The 2020 International Automatic Control Conference, 2020 (Hsinchu)</li>
+            <li>General Chair, The 5th International Conference on GPS Radio Occultation, 2020 (Hsinchu)</li>
+            <li>Invited Speaker, 積彭講座, 核能研究所, Dec. 7, 2020 (Taoyuan)</li>
+            <li>Keynote Speaker, iCASE2020暨2020航太學會學術研討會, Nov. 14, 2020 (Hsinchu)</li>
+            <li>Invited Speaker, The 4th Paraguayan Space Conference, Paraguay Space Agency, Nov. 10, 2020 (Paraguay)</li>
+            <li>Invited Speaker, Programa Internacional de Webinars sobre TECHNOLOGIA ESPACIAL, Nov. 2, 2020 (Peru)</li>
+            <li>Keynote Speaker-第18屆週日閱讀科學, Sep. 20, 2020 (國立科學工藝博物館)</li>
+            <li>Invited Speaker, 中央研究院物理研究所通俗演講, Nov. 10, 2020. (Nangang)</li>
+            <li>Keynote Speaker, 衛星科學工作坊, Nov. 20, 2020. (Chungli)</li>
+            <li>Invited Speaker, 台灣太空黑客松專題演講, Mar. 2021. (國立自然科學博物館)</li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>學術著作 (Selected Publications)</h2>
+        <ul class="publication-list">
+            <li>C. L. Lin, Z. T. Sun and Y. Y. Chen , “Air-mattress system for ballistocardiogram-based heart rate and breathing rate estimation,” <i>Heliyon</i>, vol. 1, no. 9, 12 2022. (SCI)</li>
+            <li>Y. Zhang, W. Chen, C. L. Lin, Z. Pei, J. Chen and D. Wang , “Synchronous analyses between electroencephalogram and surface electromyogram based on motor imagery and motor execution,” <i>Review of Scientific Instruments</i>, 11 2022. (SCI)</li>
+            <li>J. J. Kao, C. L. Lin and J. Yang , “Adaptive wireless power transfer system with relay transmission and communication,” <i>IEEE Transactions on Power Electronics</i>, 10 2022. (SCI)</li>
+            <li>D. Y. Huang, C. L. Lin and Y. Y. Chen , “Securable networked scheme with face authentication,” <i>IET Biometrics</i>, 09 2022. (SCI)</li>
+            <li>C. M. Chang, C. L. Lin, B. Huang and Y. Zhang , “Image based control of smart workout systems,” <i>Biomedical Signal Processing and Control</i>, 08 2022. (SCI)</li>
+            <li>C. Y. Chen, C. L. Lin and Y. Y. Chen , “Realization of ideal architecture of IoTs,” <i>ARRAY</i>, 07 2022. (SCI)</li>
+            <li>C. L. Lin, J. C. Li, C. L. Chiu, Y. W. Andy Wu and Y. W. Jan , “Gyro-stellar inertial attitude estimation for satellite with high motion rate,” <i>The Aeronautical Journal</i>, 04 2022. (SCI)</li>
+            <li>B. Huang, W. Chen, C. L. Lin, C. F. Juang and J. Wang , “MLP-BP: A novel framework for cuffless blood pressure measurement,” <i>Biomedical Signal Processing and Control</i>, 03 2022. (SCI)</li>
+            <li>B. Huang, W. Chen, C. L. Lin, C. F. Juang, Y. Xing, Y. Wang and J. Wang , “A neonatal dataset and benchmark for non-contact neonatal heart rate monitoring based on spatio-temporal neural networks,” <i>Engineering Applications of Artificial Intelligence</i>, 11 2021. (SCI)</li>
+            <li>Y. Zhang, W. Chen, C. L. Lin, Z. Pei, J. Chen and Z. Chen , “Boosting-LDA algorithm with multi-domain feature fusion for motor imagery EEG decoding,” <i>Biomedical Signal Processing and Control</i>, 09 2021. (SCI)</li>
+            <li>Y. C. Lin, C. L. Lin, S. T. Huang and C. H. Kuo , “Implementation of an autonomous overtaking system based on time to lane crossing estimation and model predictive control,” <i>Electronics</i>, 09 2021. (SCI)</li>
+            <li>B. Huang, C. L. Lin, W. Chen, C. F. Juang and X. Wu , “A novel one-stage framework for visual pulse rate estimation using deep neural networks,” <i>Biomedical Signal Processing and Control</i>, 08 2021. (SCI)</li>
+            <li>J. J. Kao, C. L. Lin, Y. C. Liu, C. C. Huang and H. S. Jian , “Adaptive bidirectionally inductive power and data transmission system,” <i>IEEE Transactions on Power Electronics</i>, 07 2021. (SCI)</li>
+            <li>Z. A. Shen, J. Cheng, C. T. Tang, C. L. Lin and C. F. Juang , “Estimation of machine cutting tool wear,” <i>Journal of the Chinese Institute of Engineers</i>, 05 2021. (SCI)</li>
+            <li>C. H. Tu, Y. C. Chang, C. L. Lin and V. T. Liu , “Motor driving/braking control scheme with integration of multiple driving components,” <i>Asian Journal of Control</i>, 12 2020. (SCI)</li>
+            <li>T. H. Chen, C. H. Tu, C. L. Lin and S. P. Hsu , “Advanced stabilizing control for electric scooters,” <i>Asian Journal of Control</i>, vol. 1, no. 32, pp. 20-31, 10 2020. (SCI)</li>
+            <li>T. H. Chen, C. H. Tu, C. L. Lin and S. P. Hsu , “Advanced tracking control for electric vehicles,” <i>Asian Journal of Control</i>, vol. 3, no. 23, 10 2020. (SCI)</li>
+            <li>S. M. Liu, C. H. Tu, C. L. Lin and V. T. Liu , “Field-oriented driving/braking control for electric vehicles,” <i>Electronics</i>, vol. 9, no. 9, 09 2020. (SCI)</li>
+            <li>T. Jennawasin, C. L. Lin and D. Banjerdpongchai , “Parameter-dependent linear matrix inequality approach to robust state estimation of noisy genetic networks,” <i>Computers and Chemical Engineering</i>, no. 136, 03 2020. (SCI)</li>
+            <li>Changchen Zhao, Weihai Chen, Chun-Liang Lin and Xingming Wu, “Physiological Signal Preserving Video Compression for Remote Photoplethysmography,” <i>IEEE SENSORS JOURNAL</i>, vol. 12, no. 19, pp. 4537-4548, 12 2019. (SCI)</li>
+        </ul>
+
+        <div class="more-btn-container">
+            <a href="https://www.ee.nchu.edu.tw/index.asp?url=32&cno=3&tno=21" target="_blank" class="more-btn">More &raquo;</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Intelligent Control Lab. All rights reserved.</p>
+        <p>地址：國立中興大學電機資訊學院 606 實驗室</p>
+    </footer>
+
+</body>
+</html>
