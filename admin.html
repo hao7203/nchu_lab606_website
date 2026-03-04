@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>實驗室網站 - 後台管理系統</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; background-color: #f4f4f4; padding: 50px; }
+        .admin-container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input[type="text"] { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; }
+        button { background-color: #0056b3; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #003d82; }
+        .danger-zone { margin-top: 50px; padding: 20px; background-color: #ffe6e6; border-radius: 10px; border: 1px solid #ff9999;}
+        .danger-zone h3 { color: #cc0000; margin-top: 0;}
+        #status-msg { margin-top: 15px; font-weight: bold; color: green; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <h2>📝 新增單筆論文發表</h2>
+        <form id="add-paper-form">
+            <div class="form-group">
+                <label>年份 (例如: 114)</label>
+                <input type="text" id="yearInput" required>
+            </div>
+            <div class="form-group">
+                <label>論文名稱</label>
+                <input type="text" id="titleInput" required>
+            </div>
+            <div class="form-group">
+                <label>學生 / 指導教授</label>
+                <input type="text" id="authorInput" required placeholder="例如: 王大明, 林俊良">
+            </div>
+            <button type="submit">確認新增</button>
+        </form>
+
+        <div id="status-msg"></div>
+
+        <div class="danger-zone">
+            <h3>⚠️ 系統初始化：一鍵匯入舊資料</h3>
+            <p>點擊下方按鈕，系統會自動將近五年的 40 篇舊論文全部寫入雲端資料庫。<br><b>(注意：請只點擊一次，否則資料會重複！)</b></p>
+            <button id="batch-upload-btn" style="background-color: #cc0000;">一鍵匯入全部舊論文</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+        // 您的 Firebase 金鑰
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSsNfKu-G2GJkIzd4_zM0wm49UgJ7_xm0",
+            authDomain: "nchu606lab.firebaseapp.com",
+            projectId: "nchu606lab",
+            storageBucket: "nchu606lab.firebasestorage.app",
+            messagingSenderId: "174937158180",
+            appId: "1:174937158180:web:90ac6670124fe33f191eb1",
+            measurementId: "G-70S0W54JLL"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const statusMsg = document.getElementById('status-msg');
+
+        // === 1. 新增單筆資料邏輯 ===
+        document.getElementById('add-paper-form').addEventListener('submit', async (e) => {
+            e.preventDefault(); // 防止網頁重新整理
+            
+            const year = document.getElementById('yearInput').value;
+            const title = document.getElementById('titleInput').value;
+            const author = document.getElementById('authorInput').value;
+
+            try {
+                // 將資料寫入 "publications" 集合
+                await addDoc(collection(db, "publications"), {
+                    year: year,
+                    title: title,
+                    author: author
+                });
+                statusMsg.textContent = "✅ 新增成功！請回前台網頁查看。";
+                statusMsg.style.color = "green";
+                document.getElementById('add-paper-form').reset(); // 清空表單
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                statusMsg.textContent = "❌ 新增失敗，請檢查主控台錯誤訊息。";
+                statusMsg.style.color = "red";
+            }
+        });
+
+        // === 2. 一鍵匯入舊資料邏輯 ===
+        const oldPapers = [
+            { year: "113", title: "組合式傾轉旋翼無人機母艦之飛控系統設計", author: "李驊恩, 林俊良" },
+            { year: "113", title: "基於強化學習的無人機群體協同作業與隊形控制系統研究", author: "邱冠勛, 林俊良" },
+            { year: "113", title: "基於分子化模型之多無人機群協同控制與路徑規劃", author: "黃彥博, 林俊良" },
+            { year: "113", title: "伴隨動態河流環境下的無人機自主定位與導航方法", author: "巫柏俊, 林俊良" },
+            { year: "113", title: "不同照度環境下非接觸式心率估測技術之研究與優化", author: "陳威志, 林俊良" },
+            { year: "113", title: "二輪電動機車的動態自平衡", author: "林延榮, 林俊良" },
+            { year: "112", title: "頻率調變通訊兼無線傳電之磁共振系統", author: "郭聖詮, 林俊良" },
+            { year: "112", title: "近場微波充電系統之研製", author: "洪昇渝, 林俊良" },
+            { year: "112", title: "基於非接觸式設備評估於跑步機上的疲勞狀態", author: "陳怡璁, 林俊良/蘇武昌" },
+            { year: "112", title: "基於可運算AI嵌入式系統之無人機抗干擾滑模控制", author: "邱渭祐, 林俊良" },
+            { year: "112", title: "基於區域損失計算之俯仰角人臉轉正", author: "陳子濬, 林俊良" },
+            { year: "112", title: "基於HJI及擴張狀態觀測器的四軸無人飛行器抗擾滑模控制", author: "陳又嶺, 林俊良" },
+            { year: "112", title: "利用影像心衝擊描記與臉部影像建立加護病房智慧自動疼痛評估系統", author: "林祐生, 林俊良" },
+            { year: "112", title: "雙向電力傳輸與資料通訊之磁共振無線充電系統", author: "簡裔琪, 林俊良" },
+            { year: "112", title: "綠色能源調度於互連微電網之減碳效益與成本分析", author: "黃兆鋒, 林俊良" },
+            { year: "111", title: "雙載具異質協同系統搭配影像慣導", author: "王子銘, 林俊良" },
+            { year: "111", title: "基於遠程光電容積脈搏波描記的跑步機運動熱量補償", author: "劉育臣, 林俊良" },
+            { year: "111", title: "基於遠程光電容積脈搏波描記的擬真跑步機系統設計", author: "洪培鈞, 蘇武昌/林俊良" },
+            { year: "111", title: "基於發布/訂閱模式與事件驅動網絡架構之群體無人機系統開發", author: "黃文雋, 林俊良" },
+            { year: "111", title: "基於生物行為之多無人機仿生編隊生成", author: "賴家玄, 林俊良" },
+            { year: "111", title: "基於一對多電容控制自適應類神經模糊補償之無線充電系統", author: "楊稟睿, 林俊良" },
+            { year: "110", title: "基於深度影像之受遮蔽臉部辨識", author: "趙元呈, 林俊良" },
+            { year: "110", title: "基於Transformer-CNN之小目標偵測", author: "陳彥霖, 林俊良" },
+            { year: "110", title: "利用低解析度3D光達及AI演算之人體活動辨識", author: "張益誠, 林俊良" },
+            { year: "110", title: "二輪驅動電動機車之模糊循跡控制", author: "賴冠丞, 蘇武昌/林俊良" },
+            { year: "110", title: "面向視覺心率估計的時空神經網絡研究 (博士論文)", author: "黃斌, 林俊良" },
+            { year: "110", title: "四軸飛行器運動目標跟蹤", author: "李淳薰, 林俊良" },
+            { year: "110", title: "具有中繼傳輸及磁場通信之適應性WPT系統 (博士論文)", author: "高嘉璟, 林俊良" },
+            { year: "109", title: "電動車之無感測電磁煞車與驅動控制整合 (博士論文)", author: "涂嘉宏, 林俊良" },
+            { year: "109", title: "理想物聯網的雛形實現", author: "陳其宇, 林俊良" },
+            { year: "109", title: "智慧無人機的設計與實現", author: "陳文傑, 林俊良" },
+            { year: "109", title: "應用於工具機主軸監測之無線感測模組研究", author: "湯傑策, 林俊良" },
+            { year: "109", title: "基於生物特徵加密之無線充電系統", author: "王子謙, 林俊良" },
+            { year: "109", title: "具心跳及呼吸監測功能之氣壓床設計", author: "孫振泰, 林俊良" },
+            { year: "109", title: "結合非接觸式生理監控為基礎之跑步機適應控制", author: "洪濬宸, 林俊良" },
+            { year: "109", title: "以非接觸生理監視技術為基礎之飛輪自適應控制", author: "張哲銘, 林俊良" },
+            { year: "109", title: "適應性磁共振無線充電系統設計", author: "曾育倫, 林俊良" }
+        ];
+
+        document.getElementById('batch-upload-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('batch-upload-btn');
+            btn.disabled = true;
+            btn.innerText = "⏳ 匯入中，請稍候...";
+            
+            try {
+                for(let i=0; i<oldPapers.length; i++) {
+                    await addDoc(collection(db, "publications"), oldPapers[i]);
+                }
+                alert("🎉 全部舊資料匯入成功！");
+                btn.innerText = "✅ 匯入完成";
+            } catch (error) {
+                console.error("匯入失敗: ", error);
+                alert("❌ 匯入發生錯誤，請看主控台。");
+                btn.disabled = false;
+                btn.innerText = "一鍵匯入全部舊論文";
+            }
+        });
+    </script>
+</body>
+</html>
