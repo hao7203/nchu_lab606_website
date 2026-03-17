@@ -6,28 +6,24 @@
     <style>
         body { font-family: "Microsoft JhengHei", Arial, sans-serif; background-color: #f4f4f4; padding: 50px; }
         .admin-container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        h2 { color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 15px; margin-top: 0; text-align: center;}
+        h2 { color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 10px; margin-top: 0; text-align: center;}
         
         .form-group { margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 5px; }
-        input[type="text"] { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;}
+        input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;}
         
         button { border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: 0.3s; width: 100%; font-weight: bold;}
-        .btn-primary { background-color: #0056b3; color: white; }
+        .btn-primary { background-color: #0056b3; color: white; margin-top: 10px;}
         .btn-primary:hover { background-color: #003d82; }
         
-        .btn-google { background-color: #ffffff; color: #757575; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px;}
-        .btn-google:hover { background-color: #f8f8f8; box-shadow: 0 1px 3px rgba(0,0,0,0.1);}
-        .btn-google img { width: 24px; height: 24px; }
-        
-        .btn-logout { background-color: #f4f4f4; color: #333; margin-top: 30px;}
+        .btn-logout { background-color: #f4f4f4; color: #333; margin-top: 30px; border: 1px solid #ccc;}
         .btn-logout:hover { background-color: #e0e0e0; }
         
-        #status-msg, #login-error { margin-top: 15px; font-weight: bold; text-align: center; }
+        #status-msg, #news-status-msg, #login-error { margin-top: 15px; font-weight: bold; text-align: center; height: 20px; }
         .user-info { text-align: center; color: #666; margin-bottom: 20px; background: #eef5ff; padding: 10px; border-radius: 5px;}
         
-        /* 預設隱藏管理區塊與載入動畫 */
         #admin-section, #loading-section { display: none; }
+        hr { border: 0; border-top: 2px dashed #eee; margin: 40px 0; }
     </style>
 </head>
 <body>
@@ -35,32 +31,31 @@
     <div class="admin-container">
         
         <div id="login-section">
-    <h2>🔒 系統登入</h2>
-    <form id="login-form">
-        <div class="form-group">
-            <label>管理員帳號 (Email)</label>
-            <input type="email" id="emailInput" required placeholder="請輸入自創帳號">
+            <h2>🔒 系統登入</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>管理員帳號 (Email)</label>
+                    <input type="email" id="emailInput" required placeholder="請輸入 Email">
+                </div>
+                <div class="form-group">
+                    <label>管理員密碼</label>
+                    <input type="password" id="passwordInput" required placeholder="請輸入密碼">
+                </div>
+                <button type="submit" class="btn-primary">登入系統</button>
+            </form>
+            <div id="login-error" style="color: red;"></div>
         </div>
-        <div class="form-group">
-            <label>管理員密碼</label>
-            <input type="password" id="passwordInput" required placeholder="請輸入密碼">
-        </div>
-        <button type="submit" class="btn-primary">登入系統</button>
-    </form>
-    <div id="login-error" style="color: red; text-align: center; margin-top: 10px;"></div>
-</div>
 
         <div id="loading-section" style="text-align: center; padding: 30px;">
             <h3 style="color: #0056b3;">⏳ 驗證管理員身分中...</h3>
         </div>
 
         <div id="admin-section">
-            <h2>📝 新增發表著作</h2>
-            
             <div class="user-info">
-                目前登入帳號：<span id="current-user-email" style="font-weight:bold; color:#0056b3;"></span>
+                目前登入：<span id="current-user-email" style="font-weight:bold; color:#0056b3;"></span>
             </div>
 
+            <h2>📝 新增發表著作</h2>
             <form id="add-paper-form">
                 <div class="form-group">
                     <label>年份 (例如: 114)</label>
@@ -75,13 +70,27 @@
                     <input type="text" id="authorInput" required placeholder="例如: 王大明, 林俊良" autocomplete="off">
                 </div>
                 <button type="submit" class="btn-primary">確認新增並寫入雲端</button>
+                <div id="status-msg"></div>
             </form>
-            
-            <div id="status-msg"></div>
+
+            <hr>
+
+            <h2>📢 發布最新消息</h2>
+            <form id="add-news-form">
+                <div class="form-group">
+                    <label>日期 (例如: 2026/03/17)</label>
+                    <input type="text" id="newsDate" required placeholder="YYYY/MM/DD">
+                </div>
+                <div class="form-group">
+                    <label>消息內容</label>
+                    <input type="text" id="newsContent" required placeholder="請輸入消息內容...">
+                </div>
+                <button type="submit" class="btn-primary">發布消息</button>
+                <div id="news-status-msg"></div>
+            </form>
             
             <button id="logout-btn" class="btn-logout">登出系統</button>
         </div>
-
     </div>
 
     <script type="module">
@@ -105,83 +114,93 @@
         // === 監聽使用者登入狀態 ===
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // 已登入，開始驗證權限
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('loading-section').style.display = 'block';
 
                 const checkRef = doc(db, "system", "adminCheck");
                 getDoc(checkRef).then(() => {
-                    // 驗證成功
                     document.getElementById('loading-section').style.display = 'none';
                     document.getElementById('admin-section').style.display = 'block';
                     document.getElementById('current-user-email').textContent = user.email;
                 }).catch((error) => {
-                    // 驗證失敗 (可能是 Rules 擋住)
                     document.getElementById('login-section').style.display = 'block';
                     document.getElementById('loading-section').style.display = 'none';
                     document.getElementById('login-error').textContent = "❌ 帳號權限不足";
                     signOut(auth);
                 });
             } else {
-                // 未登入
                 document.getElementById('login-section').style.display = 'block';
                 document.getElementById('admin-section').style.display = 'none';
                 document.getElementById('loading-section').style.display = 'none';
             }
         });
 
-        // 處理自定義帳號密碼登入
+        // 登入邏輯
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('emailInput').value;
             const password = document.getElementById('passwordInput').value;
             const loginError = document.getElementById('login-error');
-            
-            loginError.textContent = "⏳ 登入驗證中..."; // 提示正在處理
+            loginError.textContent = "⏳ 登入驗證中...";
             
             signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    loginError.textContent = ""; // 登入成功後清空
-                })
-                .catch(error => {
-                    loginError.textContent = "❌ 帳號或密碼錯誤";
-                    console.error("登入錯誤：", error.message);
-                });
+                .then(() => { loginError.textContent = ""; })
+                .catch(error => { loginError.textContent = "❌ 帳號或密碼錯誤"; });
         });
 
-        // === 處理登出動作 ===
+        // 登出邏輯
         document.getElementById('logout-btn').addEventListener('click', () => {
             signOut(auth).then(() => {
-                document.getElementById('status-msg').textContent = "";
-                document.getElementById('login-error').textContent = "您已成功登出。";
+                window.location.href = "index.html"; // 登出後跳轉回首頁
             });
         });
 
-        // === 新增單筆資料邏輯 ===
+        // 新增論文邏輯
         document.getElementById('add-paper-form').addEventListener('submit', async (e) => {
             e.preventDefault(); 
             const statusMsg = document.getElementById('status-msg');
-            const year = document.getElementById('yearInput').value;
-            const title = document.getElementById('titleInput').value;
-            const author = document.getElementById('authorInput').value;
-
+            document.getElementById('news-status-msg').textContent = ""; // 清除另一個表單的狀態
+            
             statusMsg.textContent = "⏳ 寫入雲端中...";
             statusMsg.style.color = "#ff9900";
 
             try {
                 await addDoc(collection(db, "publications"), {
-                    year: year, 
-                    title: title, 
-                    author: author,
-                    createdAt: new Date() // 建議加一個時間戳記，方便以後排序
+                    year: document.getElementById('yearInput').value, 
+                    title: document.getElementById('titleInput').value, 
+                    author: document.getElementById('authorInput').value,
+                    createdAt: new Date()
                 });
-                statusMsg.textContent = "✅ 新增成功！請回前台網頁查看。";
+                statusMsg.textContent = "✅ 論文新增成功！";
                 statusMsg.style.color = "green";
                 document.getElementById('add-paper-form').reset(); 
             } catch (error) {
                 statusMsg.textContent = "❌ 寫入失敗，請檢查權限。";
                 statusMsg.style.color = "red";
-                console.error("寫入錯誤：", error.message);
+            }
+        });
+
+        // 新增消息邏輯
+        document.getElementById('add-news-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newsStatusMsg = document.getElementById('news-status-msg');
+            document.getElementById('status-msg').textContent = ""; // 清除另一個表單的狀態
+            
+            newsStatusMsg.textContent = "⏳ 發布中...";
+            newsStatusMsg.style.color = "#ff9900";
+
+            try {
+                await addDoc(collection(db, "news"), {
+                    date: document.getElementById('newsDate').value,
+                    content: document.getElementById('newsContent').value,
+                    createdAt: new Date()
+                });
+                newsStatusMsg.textContent = "✅ 消息發布成功！";
+                newsStatusMsg.style.color = "green";
+                document.getElementById('add-news-form').reset();
+            } catch (error) {
+                newsStatusMsg.textContent = "❌ 發布失敗，請檢查權限。";
+                newsStatusMsg.style.color = "red";
             }
         });
     </script>

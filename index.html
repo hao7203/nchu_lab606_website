@@ -17,7 +17,7 @@
         footer { text-align: center; padding: 20px; background-color: #333; color: gray; margin-top: 20px; }
 
         /* =========================================
-           開場動畫 CSS
+           開場動畫 CSS (維持原樣)
            ========================================= */
         #intro-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -33,7 +33,6 @@
             background-size: contain; background-repeat: no-repeat; background-position: center;
             opacity: 0; animation: slideAnimation 60s infinite; 
         }
-        /* 照片設定 (請確認 front_cover 資料夾內有這些圖片) */
         .slide-img:nth-child(1) { background-image: url('front_cover/lab-bg1.jpg'); animation-delay: 4s; }
         .slide-img:nth-child(2) { background-image: url('front_cover/lab-bg2.jpg'); animation-delay: 9s; }
         .slide-img:nth-child(3) { background-image: url('front_cover/lab-bg3.jpg'); animation-delay: 14s; }
@@ -49,107 +48,42 @@
         .logo-stage { position: absolute; display: flex; justify-content: center; align-items: center; width: 300px; height: 300px; clip-path: circle(0% at center); animation: circleReveal 2s ease-out forwards, logoFadeOut 0.5s ease-in 3s forwards; z-index: 10; }
         .nchu-logo { width: 100%; height: auto; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
         
-        /* 【排版修正重點】
-           使用 Flexbox 讓 Logo 和 標題框框 垂直排列，且自動保持距離
-        */
         .electronic-stage {
             position: relative;
             opacity: 0;
             display: flex; 
-            flex-direction: column; /* 垂直排列 */
-            align-items: center;    /* 水平置中 */
+            flex-direction: column; 
+            align-items: center;    
             justify-content: center;
-            gap: 25px;              /* 【關鍵】Logo、框框、連結之間的間距 */
-            
-            /* 動畫：出現 -> 往上飄 */
-            animation: 
-                stageFadeIn 0.1s linear 3.5s forwards,
-                moveUpStage 1s ease-in-out 5.5s forwards;
+            gap: 25px;              
+            animation: stageFadeIn 0.1s linear 3.5s forwards, moveUpStage 1s ease-in-out 5.5s forwards;
             z-index: 20;
         }
 
-        /* LAB606 Logo 樣式 */
         .lab-logo-intro {
-            width: 160px;        /*稍微縮小一點以免擋到太多背景*/
+            width: 160px;        
             height: 160px;
             object-fit: cover;
-            border-radius: 50%;  /* 圓形 */
-            
+            border-radius: 50%;  
             opacity: 0;
             animation: logoFadeIn 1s ease-out 3.5s forwards;
-            
-            /* 加上與框框同色系的發光邊框，更有科技感 */
             border: 3px solid #00eaff;
             box-shadow: 0 0 20px rgba(0, 234, 255, 0.4); 
         }
 
-        /* 標題框框容器 */
-        .title-wrapper { 
-            position: relative; 
-            padding: 30px 50px; /* 內距 */
-            /* 移除原本的 margin-bottom，改用 electronic-stage 的 gap 來控制間距 */
-        }
-
-        /* 霓虹方框 */
-        .electronic-box { 
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-            border: 2px solid #00eaff; 
-            box-shadow: 0 0 15px #00eaff, inset 0 0 15px #00eaff; 
-            transform: scaleX(0); 
-            animation: boxExpand 0.8s cubic-bezier(0.19, 1, 0.22, 1) 3.5s forwards; 
-            background-color: rgba(0, 0, 0, 0.6); /* 【新增】加一點半透明黑底，讓字更清楚 */
-        }
-
-        .intro-text-tech { 
-            color: white; 
-            font-size: 2.5em; 
-            font-weight: bold; 
-            letter-spacing: 2px; 
-            text-align: center; 
-            position: relative; 
-            z-index: 2; 
-            text-shadow: 0 0 10px #00eaff; 
-            opacity: 0; 
-            animation: textGlowIn 1s ease-out 4.3s forwards; 
-            margin: 0; 
-        }
+        .title-wrapper { position: relative; padding: 30px 50px; }
+        .electronic-box { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 2px solid #00eaff; box-shadow: 0 0 15px #00eaff, inset 0 0 15px #00eaff; transform: scaleX(0); animation: boxExpand 0.8s cubic-bezier(0.19, 1, 0.22, 1) 3.5s forwards; background-color: rgba(0, 0, 0, 0.6); }
+        .intro-text-tech { color: white; font-size: 2.5em; font-weight: bold; letter-spacing: 2px; text-align: center; position: relative; z-index: 2; text-shadow: 0 0 10px #00eaff; opacity: 0; animation: textGlowIn 1s ease-out 4.3s forwards; margin: 0; }
         
-        .research-topics { 
-            color: #ccc; 
-            font-size: 1.1em; /* 字稍微小一點點 */
-            text-align: center; 
-            position: relative; 
-            z-index: 2; 
-            opacity: 0; 
-            letter-spacing: 1px; 
-            animation: textGlowIn 1s ease-out 6.5s forwards; 
-            line-height: 1.8; /* 增加行高，手機版換行時才不會擠在一起 */
-        }
-        
-        /* 連結樣式 */
-        .topic-highlight { 
-            color: #ff9900; 
-            font-weight: bold; 
-            margin: 0 8px; 
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-bottom: 1px solid transparent;
-            pointer-events: auto;
-            white-space: nowrap; /* 確保詞彙不會斷開 */
-        }
-        .topic-highlight:hover {
-            color: #ffcc00;
-            text-shadow: 0 0 10px #ff9900;
-            border-bottom: 1px solid #ffcc00;
-        }
+        .research-topics { color: #ccc; font-size: 1.1em; text-align: center; position: relative; z-index: 2; opacity: 0; letter-spacing: 1px; animation: textGlowIn 1s ease-out 6.5s forwards; line-height: 1.8; }
+        .topic-highlight { color: #ff9900; font-weight: bold; margin: 0 8px; text-decoration: none; cursor: pointer; transition: all 0.3s; border-bottom: 1px solid transparent; pointer-events: auto; white-space: nowrap; }
+        .topic-highlight:hover { color: #ffcc00; text-shadow: 0 0 10px #ff9900; border-bottom: 1px solid #ffcc00; }
 
         .scroll-btn-container { position: absolute; bottom: 50px; display: flex; flex-direction: column; align-items: center; cursor: pointer; opacity: 0; animation: textGlowIn 1s ease-out 7s forwards; z-index: 10; }
         .arrow-down { width: 20px; height: 20px; border-right: 3px solid #00eaff; border-bottom: 3px solid #00eaff; transform: rotate(45deg); margin: -5px 0; animation: bounce 2s infinite; filter: drop-shadow(0 0 5px #00eaff); }
         .arrow-down:nth-child(2) { animation-delay: 0.2s; }
         .btn-text { color: white; margin-top: 15px; font-size: 1.2em; letter-spacing: 2px; font-weight: bold; text-shadow: 0 0 5px #00eaff; }
 
-        /* Animation Keyframes */
         @keyframes circleReveal { to { clip-path: circle(75% at center); } }
         @keyframes logoFadeOut { to { opacity: 0; transform: scale(1.1); } }
         @keyframes stageFadeIn { to { opacity: 1; } }
@@ -175,12 +109,15 @@
         .carousel-indicator { border: 0; border-radius: 50%; width: 10px; height: 10px; background: #ccc; margin: 5px; cursor: pointer; }
         .carousel-indicator.current-indicator { background: #0056b3; }
         
-        /* 手機版調整：避免文字太大爆版 */
         @media (max-width: 600px) {
             .intro-text-tech { font-size: 1.8em; }
             .lab-logo-intro { width: 120px; height: 120px; }
-            .electronic-stage { gap: 15px; } /* 手機上間距縮小 */
+            .electronic-stage { gap: 15px; } 
         }
+
+        #news-list { padding-left: 20px; line-height: 1.8; }
+        #news-list li { margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 5px;}
+        .news-date { color: #0056b3; font-weight: bold; margin-right: 10px; }
     </style>
 </head>
 
@@ -206,7 +143,7 @@
                 Main Research:<br> 
                 <a href="research.html" class="topic-highlight" onclick="skipIntro()">無人機控制</a> | 
                 <a href="research.html" class="topic-highlight" onclick="skipIntro()">嵌入式系統</a> | 
-                <a href="research.html" class="topic-highlight" onclick="skipIntro()">強健控制</a> | 
+                <a href="research.html" class="topic-highlight" onclick="skipIntro()">人工智慧</a> | 
                 <a href="research.html" class="topic-highlight" onclick="skipIntro()">生醫科技</a> | 
                 <a href="research.html" class="topic-highlight" onclick="skipIntro()">音訊處理</a>
             </div>
@@ -221,7 +158,7 @@
         <h1>生物資訊演算與控制實驗室</h1>
         <h3>Bioinformatic Computing & Control Lab</h3>
         <nav>
-            <a href="#">首頁 (Home)</a>
+            <a href="index.html">首頁 (Home)</a>
             <a href="professor.html">指導教授 (Professor)</a>
             <a href="research.html">研究領域 (Research)</a>
             <a href="members.html">成員介紹 (Members)</a>
@@ -237,34 +174,19 @@
 
     <div class="container">
         <h2>最新消息 (News)</h2>
-        <ul>
-            <li>2026/01/25 - 恭喜實驗室成員通過碩士論文口試！</li>
-            <li>2025/12/01 - 實驗室新購置 ESP32 開發套件與光流感測器。</li>
-            <li>2025/09/01 - 歡迎 114 學年度新生加入實驗室。</li>
-        </ul>
+        <ul id="news-list"></ul>
     </div>
 
     <div class="container">
         <h2>活動照片 (Gallery)</h2>
         <div class="carousel-container">
-            <button class="carousel-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
-            <button class="carousel-btn next-btn" onclick="moveSlide(1)">&#10095;</button> 
+            <button class="carousel-btn prev-btn" id="prev-btn">&#10094;</button>
+            <button class="carousel-btn next-btn" id="next-btn">&#10095;</button> 
             <div class="carousel-track-container">
-                <ul class="carousel-track">
-                    <li class="carousel-slide current-slide"><img src="front_cover/lab-bg1.jpg" alt="活動照片1"></li>
-                    <li class="carousel-slide"><img src="front_cover/lab-bg2.jpg" alt="活動照片2"></li>
-                    <li class="carousel-slide"><img src="front_cover/lab-bg3.jpg" alt="活動照片3"></li>
-                    <li class="carousel-slide"><img src="front_cover/lab-bg4.jpg" alt="活動照片4"></li>
-                    <li class="carousel-slide"><img src="front_cover/lab-bg5.jpg" alt="活動照片5"></li>
-                    <li class="carousel-slide"><img src="front_cover/lab-bg6.jpg" alt="活動照片6"></li>
-                    <li class="carousel-slide"><img src="front_cover/lab-bg7.jpg" alt="活動照片7"></li>
-                    <li class="carousel-slide"><img src="front_cover/lab-bg8.jpg" alt="活動照片8"></li>
-                    <li class="carousel-slide"><img src="front_cover/lab-bg9.jpg" alt="活動照片9"></li>
-                    <li class="carousel-slide"><img src="front_cover/lab-bg10.jpg" alt="活動照片10"></li>
-                </ul>
+                <ul class="carousel-track" id="gallery-list"></ul>
             </div>
         </div>
-        <div class="carousel-nav"></div>
+        <div class="carousel-nav" id="carousel-nav"></div>
     </div>
 
     <footer>
@@ -272,25 +194,32 @@
         <p>地址：國立中興大學電機資訊學院 606 實驗室</p>
     </footer>
 
-<script>
-    // 1. 開場動畫邏輯
-    if (sessionStorage.getItem('introPlayed') === 'true') {
-        var intro = document.getElementById('intro-screen');
-        intro.style.display = 'none';
-    }
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-    let introLocked = false;
+    const firebaseConfig = {
+        apiKey: "AIzaSyDSsNfKu-G2GJkIzd4_zM0wm49UgJ7_xm0",
+        authDomain: "nchu606lab.firebaseapp.com",
+        projectId: "nchu606lab",
+        storageBucket: "nchu606lab.firebasestorage.app",
+        messagingSenderId: "174937158180",
+        appId: "1:174937158180:web:90ac6670124fe33f191eb1",
+        measurementId: "G-70S0W54JLL"
+    };
 
-    function handleScroll(event) {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // === 1. 開場動畫邏輯 (改為全域函式或直接綁定) ===
+    window.handleScroll = function(event) {
         var intro = document.getElementById('intro-screen');
         if (intro.style.display !== 'none' && event.deltaY > 0) {
             enterSite();
         }
     }
 
-    function enterSite() {
-        if (introLocked) return;
-        introLocked = true;
+    window.enterSite = function() {
         const intro = document.getElementById('intro-screen');
         const target = document.getElementById('home-section');
         if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
@@ -300,37 +229,92 @@
         setTimeout(function() { intro.style.display = 'none'; }, 1000);
     }
 
-    // === 2. 輪播功能 JavaScript ===
-    const slides = document.querySelectorAll('.carousel-slide');
-    const navContainer = document.querySelector('.carousel-nav');
-    let currentSlideIndex = 0;
+    window.skipIntro = function() {
+        sessionStorage.setItem('introPlayed', 'true');
+    }
+
+    if (sessionStorage.getItem('introPlayed') === 'true') {
+        document.getElementById('intro-screen').style.display = 'none';
+    }
+
+    // === 2. 雲端最新消息載入 ===
+    async function loadNewsFromCloud() {
+        const newsListElement = document.getElementById('news-list');
+        newsListElement.innerHTML = "<li>載入中...</li>";
+
+        try {
+            // 優先依 date 排序，再依 createdAt 排序
+            const q = query(collection(db, "news"), orderBy("date", "desc"));
+            const querySnapshot = await getDocs(q);
+            
+            newsListElement.innerHTML = "";
+            querySnapshot.forEach((doc) => {
+                const news = doc.data();
+                newsListElement.innerHTML += `<li><span class="news-date">${news.date}</span> - ${news.content}</li>`;
+            });
+        } catch (error) {
+            console.error("新聞載入失敗:", error);
+            newsListElement.innerHTML = "<li>目前暫無消息。</li>";
+        }
+    }
+
+    // === 3. 輪播照片邏輯 (維持本地展示，或未來可改雲端) ===
+    const galleryData = [
+        { src: "front_cover/lab-bg1.jpg", alt: "活動照片1" },
+        { src: "front_cover/lab-bg2.jpg", alt: "活動照片2" },
+        { src: "front_cover/lab-bg3.jpg", alt: "活動照片3" },
+        { src: "front_cover/lab-bg4.jpg", alt: "活動照片4" },
+        { src: "front_cover/lab-bg5.jpg", alt: "活動照片5" },
+        { src: "front_cover/lab-bg6.jpg", alt: "活動照片6" },
+        { src: "front_cover/lab-bg7.jpg", alt: "活動照片7" },
+        { src: "front_cover/lab-bg8.jpg", alt: "活動照片8" },
+        { src: "front_cover/lab-bg9.jpg", alt: "活動照片9" },
+        { src: "front_cover/lab-bg10.jpg", alt: "活動照片10" }
+    ];
+
+    let slides = [];
     let dots = [];
+    let currentSlideIndex = 0;
 
-    slides.forEach((slide, index) => {
-        const dot = document.createElement('button');
-        dot.classList.add('carousel-indicator');
-        if (index === 0) dot.classList.add('current-indicator');
-        dot.addEventListener('click', () => { jumpToSlide(index); });
-        navContainer.appendChild(dot);
-        dots.push(dot);
-    });
+    function renderGallery() {
+        const galleryTrack = document.getElementById('gallery-list');
+        const navContainer = document.getElementById('carousel-nav');
+        galleryTrack.innerHTML = "";
+        navContainer.innerHTML = "";
 
-    function moveSlide(n) { showSlide(currentSlideIndex + n); }
-    function jumpToSlide(n) { showSlide(n); }
+        galleryData.forEach((img, index) => {
+            const isCurrent = index === 0 ? "current-slide" : "";
+            galleryTrack.innerHTML += `<li class="carousel-slide ${isCurrent}"><img src="${img.src}" alt="${img.alt}"></li>`;
+            
+            const dot = document.createElement('button');
+            dot.classList.add('carousel-indicator');
+            if (index === 0) dot.classList.add('current-indicator');
+            dot.addEventListener('click', () => { showSlide(index); });
+            navContainer.appendChild(dot);
+            dots.push(dot);
+        });
+        slides = document.querySelectorAll('.carousel-slide');
+    }
 
     function showSlide(n) {
+        if(slides.length === 0) return;
         slides[currentSlideIndex].classList.remove('current-slide');
         dots[currentSlideIndex].classList.remove('current-indicator');
-        currentSlideIndex = n;
-        if (currentSlideIndex >= slides.length) { currentSlideIndex = 0; }
-        if (currentSlideIndex < 0) { currentSlideIndex = slides.length - 1; }
+        currentSlideIndex = (n + slides.length) % slides.length;
         slides[currentSlideIndex].classList.add('current-slide');
         dots[currentSlideIndex].classList.add('current-indicator');
     }
-    // 新增這個函式：當點擊研究領域連結時，直接標記已看過動畫
-    function skipIntro() {
-        sessionStorage.setItem('introPlayed', 'true');
-    }
+
+    // 綁定輪播按鈕
+    document.getElementById('prev-btn').addEventListener('click', () => showSlide(currentSlideIndex - 1));
+    document.getElementById('next-btn').addEventListener('click', () => showSlide(currentSlideIndex + 1));
+
+    // === 初始化執行 ===
+    window.onload = () => {
+        loadNewsFromCloud();
+        renderGallery();
+    };
 </script>
+
 </body>
 </html>
