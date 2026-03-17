@@ -4,26 +4,34 @@
     <meta charset="UTF-8">
     <title>實驗室網站 - 後台管理系統</title>
     <style>
-        body { font-family: "Microsoft JhengHei", Arial, sans-serif; background-color: #f4f4f4; padding: 50px; }
-        .admin-container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        body { font-family: "Microsoft JhengHei", Arial, sans-serif; background-color: #f4f4f4; padding: 30px; }
+        .admin-container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         h2 { color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 10px; margin-top: 0; text-align: center;}
         
         .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #333;}
         input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;}
         
-        button { border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: 0.3s; width: 100%; font-weight: bold;}
-        .btn-primary { background-color: #0056b3; color: white; margin-top: 10px;}
+        button { border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: 0.3s; font-weight: bold;}
+        .btn-primary { background-color: #0056b3; color: white; width: 100%; margin-top: 10px;}
         .btn-primary:hover { background-color: #003d82; }
         
-        .btn-logout { background-color: #f4f4f4; color: #333; margin-top: 30px; border: 1px solid #ccc;}
+        .btn-delete { background-color: #dc3545; color: white; padding: 5px 10px; font-size: 14px; border-radius: 4px; float: right; }
+        .btn-delete:hover { background-color: #c82333; }
+        
+        .btn-logout { background-color: #f4f4f4; color: #333; width: 100%; margin-top: 40px; border: 1px solid #ccc;}
         .btn-logout:hover { background-color: #e0e0e0; }
         
-        #status-msg, #news-status-msg, #login-error { margin-top: 15px; font-weight: bold; text-align: center; height: 20px; }
-        .user-info { text-align: center; color: #666; margin-bottom: 20px; background: #eef5ff; padding: 10px; border-radius: 5px;}
+        #status-msg, #news-status-msg, #member-status-msg, #login-error { margin-top: 15px; font-weight: bold; text-align: center; height: 20px; }
+        .user-info { text-align: center; color: #666; margin-bottom: 30px; background: #eef5ff; padding: 10px; border-radius: 5px;}
         
         #admin-section, #loading-section { display: none; }
-        hr { border: 0; border-top: 2px dashed #eee; margin: 40px 0; }
+        hr { border: 0; border-top: 2px dashed #ddd; margin: 40px 0; }
+        
+        /* 管理列表樣式 */
+        .data-list { list-style: none; padding: 0; }
+        .data-list li { background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #0056b3; display: flex; justify-content: space-between; align-items: center; }
+        .data-content { max-width: 80%; }
     </style>
 </head>
 <body>
@@ -47,7 +55,7 @@
         </div>
 
         <div id="loading-section" style="text-align: center; padding: 30px;">
-            <h3 style="color: #0056b3;">⏳ 驗證管理員身分中...</h3>
+            <h3 style="color: #0056b3;">⏳ 驗證管理員身分與載入資料中...</h3>
         </div>
 
         <div id="admin-section">
@@ -69,7 +77,7 @@
                     <label>學生 / 指導教授</label>
                     <input type="text" id="authorInput" required placeholder="例如: 王大明, 林俊良" autocomplete="off">
                 </div>
-                <button type="submit" class="btn-primary">確認新增並寫入雲端</button>
+                <button type="submit" class="btn-primary">確認新增論文</button>
                 <div id="status-msg"></div>
             </form>
 
@@ -88,14 +96,52 @@
                 <button type="submit" class="btn-primary">發布消息</button>
                 <div id="news-status-msg"></div>
             </form>
+
+            <hr>
+
+            <h2>🧑‍🎓 新增實驗室成員</h2>
+            <form id="add-member-form">
+                <div class="form-group">
+                    <label>入學年份 (例如: 114學年度)</label>
+                    <input type="text" id="memberYear" required placeholder="例如: 114">
+                </div>
+                <div class="form-group">
+                    <label>學位/職稱 (例如: 碩士班, 博士班, 專題生)</label>
+                    <input type="text" id="memberTitle" required placeholder="例如: 碩士班">
+                </div>
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" id="memberName" required placeholder="例如: 陳小明">
+                </div>
+                <div class="form-group">
+                    <label>照片路徑 (需先將照片推上 GitHub)</label>
+                    <input type="text" id="memberPhotoUrl" required placeholder="例如: members/student1.jpg">
+                </div>
+                <button type="submit" class="btn-primary">新增成員</button>
+                <div id="member-status-msg"></div>
+            </form>
+
+            <hr style="border-top: 4px solid #333;">
+
+            <h2>🗄️ 現有資料管理中心</h2>
+            <p style="text-align:center; color:#666; margin-bottom:20px;">如果資料有誤，請點擊右側「刪除」後，再重新新增一筆正確的資料。</p>
             
+            <h3 style="color:#ff9900;">📍 最新消息列表</h3>
+            <ul class="data-list" id="manage-news-list"><li>載入中...</li></ul>
+
+            <h3 style="color:#ff9900;">📍 發表著作列表</h3>
+            <ul class="data-list" id="manage-paper-list"><li>載入中...</li></ul>
+
+            <h3 style="color:#ff9900;">📍 實驗室成員列表</h3>
+            <ul class="data-list" id="manage-member-list"><li>載入中...</li></ul>
+
             <button id="logout-btn" class="btn-logout">登出系統</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, doc, getDoc, getDocs, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -111,6 +157,87 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
+        // 輔助函式：清除所有狀態訊息
+        function clearAllStatus() {
+            document.getElementById('status-msg').textContent = "";
+            document.getElementById('news-status-msg').textContent = "";
+            document.getElementById('member-status-msg').textContent = "";
+        }
+
+        // ==========================================
+        // 核心功能：載入並顯示所有資料 (含刪除按鈕)
+        // ==========================================
+        async function loadAllManagementData() {
+            // 1. 載入新聞
+            const newsList = document.getElementById('manage-news-list');
+            try {
+                const qNews = query(collection(db, "news"), orderBy("date", "desc"));
+                const snapNews = await getDocs(qNews);
+                newsList.innerHTML = "";
+                snapNews.forEach(d => {
+                    const data = d.data();
+                    newsList.innerHTML += `
+                        <li>
+                            <div class="data-content"><strong>${data.date}</strong> - ${data.content}</div>
+                            <button class="btn-delete" data-id="${d.id}" data-col="news">刪除</button>
+                        </li>`;
+                });
+            } catch(e) { newsList.innerHTML = "<li>載入失敗</li>"; }
+
+            // 2. 載入論文
+            const paperList = document.getElementById('manage-paper-list');
+            try {
+                const qPaper = query(collection(db, "publications"));
+                const snapPaper = await getDocs(qPaper);
+                paperList.innerHTML = "";
+                snapPaper.forEach(d => {
+                    const data = d.data();
+                    paperList.innerHTML += `
+                        <li>
+                            <div class="data-content">[${data.year}] ${data.title} (${data.author})</div>
+                            <button class="btn-delete" data-id="${d.id}" data-col="publications">刪除</button>
+                        </li>`;
+                });
+            } catch(e) { paperList.innerHTML = "<li>載入失敗</li>"; }
+
+            // 3. 載入成員
+            const memberList = document.getElementById('manage-member-list');
+            try {
+                const qMember = query(collection(db, "members"));
+                const snapMember = await getDocs(qMember);
+                memberList.innerHTML = "";
+                snapMember.forEach(d => {
+                    const data = d.data();
+                    memberList.innerHTML += `
+                        <li>
+                            <div class="data-content">[${data.year}學年度] ${data.title} - <strong>${data.name}</strong><br><span style="font-size: 12px; color: #888;">路徑: ${data.photoUrl}</span></div>
+                            <button class="btn-delete" data-id="${d.id}" data-col="members">刪除</button>
+                        </li>`;
+                });
+            } catch(e) { memberList.innerHTML = "<li>載入失敗</li>"; }
+
+            // === 綁定所有「刪除」按鈕的點擊事件 ===
+            document.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const docId = e.target.getAttribute('data-id');
+                    const colName = e.target.getAttribute('data-col');
+                    
+                    if(confirm("⚠️ 確定要永久刪除這筆資料嗎？刪除後無法復原喔！")) {
+                        e.target.textContent = "刪除中...";
+                        e.target.style.backgroundColor = "#666";
+                        try {
+                            await deleteDoc(doc(db, colName, docId));
+                            alert("✅ 已成功刪除！");
+                            loadAllManagementData(); 
+                        } catch (error) {
+                            alert("❌ 刪除失敗，請檢查權限。");
+                            console.error(error);
+                        }
+                    }
+                });
+            });
+        }
+
         // === 監聽使用者登入狀態 ===
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -122,6 +249,9 @@
                     document.getElementById('loading-section').style.display = 'none';
                     document.getElementById('admin-section').style.display = 'block';
                     document.getElementById('current-user-email').textContent = user.email;
+                    
+                    loadAllManagementData();
+
                 }).catch((error) => {
                     document.getElementById('login-section').style.display = 'block';
                     document.getElementById('loading-section').style.display = 'none';
@@ -135,35 +265,33 @@
             }
         });
 
-        // 登入邏輯
+        // ==========================================
+        // 表單提交處理區塊
+        // ==========================================
+        
+        // 登入
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('emailInput').value;
             const password = document.getElementById('passwordInput').value;
             const loginError = document.getElementById('login-error');
             loginError.textContent = "⏳ 登入驗證中...";
-            
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => { loginError.textContent = ""; })
                 .catch(error => { loginError.textContent = "❌ 帳號或密碼錯誤"; });
         });
 
-        // 登出邏輯
+        // 登出
         document.getElementById('logout-btn').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                window.location.href = "index.html"; // 登出後跳轉回首頁
-            });
+            signOut(auth).then(() => { window.location.href = "index.html"; });
         });
 
-        // 新增論文邏輯
+        // 新增論文
         document.getElementById('add-paper-form').addEventListener('submit', async (e) => {
             e.preventDefault(); 
-            const statusMsg = document.getElementById('status-msg');
-            document.getElementById('news-status-msg').textContent = ""; // 清除另一個表單的狀態
-            
-            statusMsg.textContent = "⏳ 寫入雲端中...";
-            statusMsg.style.color = "#ff9900";
-
+            clearAllStatus();
+            const msg = document.getElementById('status-msg');
+            msg.textContent = "⏳ 寫入雲端中..."; msg.style.color = "#ff9900";
             try {
                 await addDoc(collection(db, "publications"), {
                     year: document.getElementById('yearInput').value, 
@@ -171,37 +299,48 @@
                     author: document.getElementById('authorInput').value,
                     createdAt: new Date()
                 });
-                statusMsg.textContent = "✅ 論文新增成功！";
-                statusMsg.style.color = "green";
+                msg.textContent = "✅ 論文新增成功！"; msg.style.color = "green";
                 document.getElementById('add-paper-form').reset(); 
-            } catch (error) {
-                statusMsg.textContent = "❌ 寫入失敗，請檢查權限。";
-                statusMsg.style.color = "red";
-            }
+                loadAllManagementData(); 
+            } catch (error) { msg.textContent = "❌ 寫入失敗"; msg.style.color = "red"; }
         });
 
-        // 新增消息邏輯
+        // 新增消息
         document.getElementById('add-news-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const newsStatusMsg = document.getElementById('news-status-msg');
-            document.getElementById('status-msg').textContent = ""; // 清除另一個表單的狀態
-            
-            newsStatusMsg.textContent = "⏳ 發布中...";
-            newsStatusMsg.style.color = "#ff9900";
-
+            clearAllStatus();
+            const msg = document.getElementById('news-status-msg');
+            msg.textContent = "⏳ 發布中..."; msg.style.color = "#ff9900";
             try {
                 await addDoc(collection(db, "news"), {
                     date: document.getElementById('newsDate').value,
                     content: document.getElementById('newsContent').value,
                     createdAt: new Date()
                 });
-                newsStatusMsg.textContent = "✅ 消息發布成功！";
-                newsStatusMsg.style.color = "green";
+                msg.textContent = "✅ 消息發布成功！"; msg.style.color = "green";
                 document.getElementById('add-news-form').reset();
-            } catch (error) {
-                newsStatusMsg.textContent = "❌ 發布失敗，請檢查權限。";
-                newsStatusMsg.style.color = "red";
-            }
+                loadAllManagementData(); 
+            } catch (error) { msg.textContent = "❌ 發布失敗"; msg.style.color = "red"; }
+        });
+
+        // 新增成員 (無須上傳照片，直接寫入字串網址)
+        document.getElementById('add-member-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearAllStatus();
+            const msg = document.getElementById('member-status-msg');
+            msg.textContent = "⏳ 寫入中..."; msg.style.color = "#ff9900";
+            try {
+                await addDoc(collection(db, "members"), {
+                    year: document.getElementById('memberYear').value,
+                    title: document.getElementById('memberTitle').value,
+                    name: document.getElementById('memberName').value,
+                    photoUrl: document.getElementById('memberPhotoUrl').value, // 儲存手動輸入的圖片路徑
+                    createdAt: new Date()
+                });
+                msg.textContent = "✅ 成員新增成功！"; msg.style.color = "green";
+                document.getElementById('add-member-form').reset();
+                loadAllManagementData(); 
+            } catch (error) { msg.textContent = "❌ 新增失敗"; msg.style.color = "red"; }
         });
     </script>
 </body>

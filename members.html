@@ -33,37 +33,37 @@
         .group-container {
             width: 85%;
             max-width: 1200px;
-            margin: 0 auto 40px auto; /* 區塊間距 */
+            margin: 0 auto 40px auto; 
             background-color: white;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
-        /* 分組標題 (例如：博士班) */
+        /* 分組標題 */
         .group-title {
             font-size: 1.5em;
             color: #333;
-            border-left: 5px solid #0056b3; /* 左側藍條 */
+            border-left: 5px solid #0056b3; 
             padding-left: 15px;
             margin-bottom: 25px;
             font-weight: bold;
         }
 
-        /* 成員列表網格 (Grid) */
+        /* 成員列表網格 */
         .member-grid {
             display: flex;
-            flex-wrap: wrap;       /* 超過寬度自動換行 */
-            gap: 40px;             /* 成員之間的間距 */
-            justify-content: flex-start; /* 靠左對齊 (若想置中可改 center) */
+            flex-wrap: wrap;       
+            gap: 40px;             
+            justify-content: flex-start; 
         }
 
         /* 單個成員卡片 */
         .member-card {
             display: flex;
             flex-direction: column;
-            align-items: center;   /* 內容置中 */
-            width: 150px;          /* 卡片寬度固定 */
+            align-items: center;   
+            width: 150px;          
             text-align: center;
         }
 
@@ -71,15 +71,15 @@
         .member-photo {
             width: 140px;
             height: 140px;
-            object-fit: cover;     /* 填滿圓形不變形 */
-            border-radius: 50%;    /* 變成圓形 */
+            object-fit: cover;     
+            border-radius: 50%;    
             border: 4px solid #f0f0f0;
             box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
             transition: transform 0.3s ease;
             margin-bottom: 10px;
+            background-color: #fff; /* 預防透明背景圖片 */
         }
 
-        /* 滑鼠移過去照片放大一點 */
         .member-card:hover .member-photo {
             transform: scale(1.05);
             border-color: #0056b3;
@@ -93,7 +93,6 @@
             margin-bottom: 5px;
         }
         
-        /* email 或其他資訊 (選填) */
         .member-info {
             font-size: 0.9em;
             color: #777;
@@ -102,7 +101,7 @@
         /* 手機版調整 */
         @media (max-width: 600px) {
             .member-grid {
-                justify-content: center; /* 手機版改為置中比較好看 */
+                justify-content: center; 
                 gap: 30px;
             }
         }
@@ -127,70 +126,8 @@
         <h2>實驗室成員 (Lab Members)</h2>
     </div>
 
-    <div class="group-container">
-        <div class="group-title">博士班 (Ph.D. Students)</div>
-        <div class="member-grid">
-            
-            <div class="member-card">
-                <img src="teacher.jpg" alt="博士生1" class="member-photo">
-                <div class="member-name">1</div>
-            </div>
-
-            <div class="member-card">
-                <img src="teacher.jpg" alt="博士生2" class="member-photo">
-                <div class="member-name">2</div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="group-container">
-        <div class="group-title">碩士班二年級 (Master Students - Year 2)</div>
-        <div class="member-grid">
-            
-            <div class="member-card">
-                <img src="teacher.jpg" alt="碩二生1" class="member-photo">
-                <div class="member-name">3</div>
-            </div>
-
-            <div class="member-card">
-                <img src="teacher.jpg" alt="碩二生2" class="member-photo">
-                <div class="member-name">4</div>
-            </div>
-
-            <div class="member-card">
-                <img src="teacher.jpg" alt="碩二生3" class="member-photo">
-                <div class="member-name">5</div>
-            </div>
-            
-            <div class="member-card">
-                <img src="teacher.jpg" alt="碩二生4" class="member-photo">
-                <div class="member-name">6</div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="group-container">
-        <div class="group-title">碩士班一年級 (Master Students - Year 1)</div>
-        <div class="member-grid">
-            
-            <div class="member-card">
-                <img src="teacher.jpg" alt="碩一生1" class="member-photo">
-                <div class="member-name">7</div>
-            </div>
-
-            <div class="member-card">
-                <img src="teacher.jpg" alt="碩一生2" class="member-photo">
-                <div class="member-name">8</div>
-            </div>
-
-            <div class="member-card">
-                <img src="teacher.jpg" alt="碩一生3" class="member-photo">
-                <div class="member-name">9</div>
-            </div>
-
-        </div>
+    <div id="members-main-container">
+        <h3 style="text-align: center; color: #666; margin-top: 50px;">⏳ 正在從雲端載入成員資料中...</h3>
     </div>
 
     <footer>
@@ -198,5 +135,95 @@
         <p>地址：國立中興大學電機資訊學院 606 實驗室</p>
     </footer>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+        // 匯入所需的資料庫功能
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+        // 您的 Firebase 金鑰設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSsNfKu-G2GJkIzd4_zM0wm49UgJ7_xm0",
+            authDomain: "nchu606lab.firebaseapp.com",
+            projectId: "nchu606lab",
+            storageBucket: "nchu606lab.firebasestorage.app",
+            messagingSenderId: "174937158180",
+            appId: "1:174937158180:web:90ac6670124fe33f191eb1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // === 從 Firebase 讀取並渲染成員的函式 ===
+        async function loadMembersFromCloud() {
+            const mainContainer = document.getElementById('members-main-container');
+
+            try {
+                // 從 members 集合抓資料，並依據年份由大到小排序 (越新的在越上面)
+                const q = query(collection(db, "members"), orderBy("year", "desc"));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    mainContainer.innerHTML = '<h3 style="text-align:center; color:#666;">目前還沒有建立成員資料喔！請至後台新增。</h3>';
+                    return;
+                }
+
+                // 1. 【資料分組】將抓下來的資料依據「年份 + 職稱」分類
+                const groups = {};
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    // 組合出群組名稱，例如："114學年度 碩士班"
+                    const groupName = `${data.year}學年度 ${data.title}`;
+                    
+                    if (!groups[groupName]) {
+                        groups[groupName] = []; // 如果這個群組還沒建立，就開一個新的陣列
+                    }
+                    groups[groupName].push(data); // 把成員塞進對應的群組裡
+                });
+
+                // 2. 【群組排序】確保 114 學年度會排在 113 學年度前面
+                const sortedGroupNames = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+
+                // 清空「載入中」的文字
+                mainContainer.innerHTML = ""; 
+
+                // 3. 【渲染畫面】把每一組的資料轉換成 HTML 卡片
+                sortedGroupNames.forEach(groupName => {
+                    const members = groups[groupName];
+                    let gridHtml = '';
+
+                    members.forEach(m => {
+                        // 防呆機制：如果路徑是空的，給一張預設的人頭圖。如果圖片破圖(onerror)，也會顯示預設圖。
+                        const photoUrl = m.photoUrl ? m.photoUrl : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+                        
+                        gridHtml += `
+                            <div class="member-card">
+                                <img src="${photoUrl}" alt="${m.name}" class="member-photo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'">
+                                <div class="member-name">${m.name}</div>
+                            </div>
+                        `;
+                    });
+
+                    // 把這組的 HTML 塞進主容器
+                    mainContainer.innerHTML += `
+                        <div class="group-container">
+                            <div class="group-title">${groupName}</div>
+                            <div class="member-grid">
+                                ${gridHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+
+            } catch (error) {
+                console.error("載入成員失敗:", error);
+                mainContainer.innerHTML = '<h3 style="text-align:center; color:red;">❌ 載入失敗，請檢查網路連線或資料庫權限。</h3>';
+            }
+        }
+
+        // 網頁載入時自動執行
+        window.onload = () => {
+            loadMembersFromCloud();
+        };
+    </script>
 </body>
 </html>
