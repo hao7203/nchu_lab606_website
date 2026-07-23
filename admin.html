@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網站管理中心 - 生物資訊演算與控制實驗室</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <header class="site-header">
+        <h1>生物資訊演算與控制實驗室</h1>
+        <h3>網站管理中心</h3>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="開啟導覽列">☰</button>
+        <nav class="main-nav" data-main-nav>
+            <a href="index.html">首頁</a>
+            <a href="professor.html">教授頁</a>
+            <a href="research.html">研究領域</a>
+            <a href="members.html">成員</a>
+            <a href="publications.html">著作</a>
+        </nav>
+    </header>
+
+    <main class="admin-page-shell">
+        <div class="admin-banner">
+            <h1>網站管理中心</h1>
+            <p>可集中管理最新消息、發表著作與實驗室成員；其他內容可直接到前台頁面編輯。</p>
+        </div>
+
+        <section class="admin-login-hint">
+            <h2>尚未進入管理模式</h2>
+            <p>請點擊右上角藍色圓形鎖頭登入管理員帳號。</p>
+        </section>
+
+        <div class="admin-dashboard">
+            <section class="admin-panel" style="margin-bottom:20px;">
+                <h2>快速前往前台編輯</h2>
+                <div class="quick-links">
+                    <a class="btn btn-primary" href="index.html#news-section">首頁與最新消息</a>
+                    <a class="btn btn-primary" href="professor.html">指導教授資料</a>
+                    <a class="btn btn-primary" href="research.html">研究領域</a>
+                    <a class="btn btn-primary" href="members.html">實驗室成員</a>
+                    <a class="btn btn-primary" href="publications.html">發表著作</a>
+                </div>
+            </section>
+
+            <div class="admin-grid">
+                <section class="admin-panel">
+                    <div class="section-heading-row">
+                        <h2>最新消息</h2>
+                        <button id="admin-add-news" class="btn btn-accent btn-small" type="button">＋ 新增</button>
+                    </div>
+                    <ul id="admin-news-list" class="admin-data-list"><li>載入中…</li></ul>
+                </section>
+
+                <section class="admin-panel">
+                    <div class="section-heading-row">
+                        <h2>發表著作</h2>
+                        <button id="admin-add-publication" class="btn btn-accent btn-small" type="button">＋ 新增</button>
+                    </div>
+                    <ul id="admin-publication-list" class="admin-data-list"><li>載入中…</li></ul>
+                </section>
+
+                <section class="admin-panel">
+                    <div class="section-heading-row">
+                        <h2>實驗室成員</h2>
+                        <button id="admin-add-member" class="btn btn-accent btn-small" type="button">＋ 新增</button>
+                    </div>
+                    <ul id="admin-member-list" class="admin-data-list"><li>載入中…</li></ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Bioinformatic Computing &amp; Control Lab. All rights reserved.</p>
+        <p>地址：國立中興大學電機資訊學院 606 實驗室</p>
+    </footer>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>

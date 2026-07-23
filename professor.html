@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指導教授 - 生物資訊演算與控制實驗室</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/professor.css">
+</head>
+<body>
+    <header class="site-header">
+        <h1>生物資訊演算與控制實驗室</h1>
+        <h3>Bioinformatic Computing &amp; Control Lab</h3>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="開啟導覽列">☰</button>
+        <nav class="main-nav" data-main-nav>
+            <a href="index.html">首頁 (Home)</a>
+            <a class="active" href="professor.html">指導教授 (Professor)</a>
+            <a href="research.html">研究領域 (Research)</a>
+            <a href="members.html">成員介紹 (Members)</a>
+            <a href="publications.html">發表著作 (Publications)</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="professor-hero" id="professor-hero">
+            <div class="item-action-layer admin-only">
+                <button id="edit-professor-button" class="btn btn-accent btn-small" type="button">✏️ 修改</button>
+            </div>
+            <img id="professor-photo" src="teacher.jpg" alt="林俊良教授" class="hero-photo">
+            <div class="hero-info">
+                <h2 id="professor-name">林俊良 博士 (Dr. Chun-Liang Lin)</h2>
+                <p><strong>最高學歷：</strong><span id="professor-education">國立成功大學航太工程博士</span></p>
+                <p><strong>現任職務：</strong><span id="professor-position">國立中興大學 中興講座教授</span></p>
+                <p><strong>研究領域：</strong><span id="professor-research">控制系統數學、生物辨識、導引／導航與控制、能源控制</span></p>
+                <p><strong>電子郵件：</strong><a id="professor-email" href="mailto:chunlin@dragon.nchu.edu.tw">chunlin@dragon.nchu.edu.tw</a></p>
+                <p><strong>聯絡電話：</strong><span id="professor-telephone">+886-4-22851549 #708</span></p>
+            </div>
+        </section>
+
+        <section class="container editable-section">
+            <div class="section-heading-row">
+                <h2 class="section-title">重要經歷 (Experience)</h2>
+                <button class="btn btn-accent admin-only" type="button" data-add-list="experience">＋ 新增</button>
+            </div>
+            <ul class="professor-list" id="experience-list"><li class="loading-state">載入中…</li></ul>
+        </section>
+
+        <section class="container editable-section">
+            <div class="section-heading-row">
+                <h2 class="section-title">榮譽獎勵 (Honors &amp; Awards)</h2>
+                <button class="btn btn-accent admin-only" type="button" data-add-list="honor">＋ 新增</button>
+            </div>
+            <ul class="professor-list" id="honors-list"><li class="loading-state">載入中…</li></ul>
+        </section>
+
+        <section class="container editable-section">
+            <div class="section-heading-row">
+                <h2 class="section-title">學術服務 (Academic Service)</h2>
+                <button class="btn btn-accent admin-only" type="button" data-add-list="service">＋ 新增</button>
+            </div>
+            <ul class="professor-list" id="service-list"><li class="loading-state">載入中…</li></ul>
+        </section>
+
+        <section class="container editable-section">
+            <div class="section-heading-row">
+                <h2 class="section-title">學術著作 (Selected Publications)</h2>
+                <button class="btn btn-accent admin-only" type="button" data-add-list="publication">＋ 新增</button>
+            </div>
+            <ol class="professor-list publication-list" id="publication-list"><li class="loading-state">載入中…</li></ol>
+            <div class="more-btn-container">
+                <a href="https://www.ee.nchu.edu.tw/index.asp?url=32&amp;cno=3&amp;tno=21" target="_blank" rel="noopener noreferrer" class="btn btn-primary">More &raquo;</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Bioinformatic Computing &amp; Control Lab. All rights reserved.</p>
+        <p>地址：國立中興大學電機資訊學院 606 實驗室</p>
+    </footer>
+
+    <script type="module" src="js/professor.js"></script>
+</body>
+</html>
