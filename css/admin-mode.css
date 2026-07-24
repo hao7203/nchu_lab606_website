@@ -1,0 +1,342 @@
+/* 管理介面預設完全隱藏；只有通過 Authentication + Firestore Rules 驗證後才顯示。 */
+.admin-only,
+.admin-item-actions,
+.admin-table-cell {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+body.admin-mode .admin-only {
+    display: inline-flex !important;
+    visibility: visible !important;
+}
+
+body.admin-mode .admin-only.admin-block,
+body.admin-mode .admin-only.admin-action-group {
+    display: flex !important;
+}
+
+body.admin-mode .admin-item-actions {
+    display: inline-flex !important;
+    visibility: visible !important;
+}
+
+body.admin-mode .admin-table-cell,
+body.admin-mode .admin-only.admin-table-cell {
+    display: table-cell !important;
+    visibility: visible !important;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.admin-toolbar {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 12000;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 999px;
+    background: rgba(20, 24, 31, 0.96);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    font-size: 14px;
+}
+
+.admin-toolbar.is-visible {
+    display: flex;
+}
+
+.admin-toolbar button,
+.admin-action-btn,
+.item-action-btn,
+.editor-dialog button,
+.news-load-more {
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+}
+
+.admin-toolbar button {
+    padding: 8px 12px;
+}
+
+.admin-mode-toggle {
+    background: #ff9900;
+    color: #111;
+}
+
+.admin-logout-btn {
+    background: #f0f0f0;
+    color: #222;
+}
+
+.admin-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.admin-section-heading > h2 {
+    flex: 1;
+}
+
+.page-title-admin-row {
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+body.admin-mode .page-title-admin-row {
+    justify-content: space-between;
+}
+
+.admin-action-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.admin-action-btn,
+.item-action-btn {
+    align-items: center;
+    justify-content: center;
+    padding: 7px 12px;
+    background: #0056b3;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.item-action-btn {
+    padding: 5px 9px;
+    font-size: 13px;
+}
+
+.item-action-btn.delete {
+    background: #c62828;
+}
+
+.item-action-btn.secondary,
+.admin-action-btn.secondary {
+    background: #616161;
+}
+
+.admin-item-actions {
+    margin-left: auto;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.admin-editable-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.admin-editable-item > .item-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.editor-dialog {
+    width: min(720px, calc(100vw - 28px));
+    max-height: calc(100vh - 40px);
+    overflow: auto;
+    border: 0;
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.36);
+}
+
+.editor-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.editor-dialog .dialog-inner {
+    padding: 24px;
+}
+
+.editor-dialog h3 {
+    margin: 0 0 18px;
+    color: #0056b3;
+}
+
+.editor-dialog .editor-field {
+    margin-bottom: 14px;
+}
+
+.editor-dialog label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+    color: #333;
+}
+
+.editor-dialog input,
+.editor-dialog textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.editor-dialog textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.editor-dialog .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.editor-dialog .save-btn {
+    background: #0056b3;
+    color: #fff;
+    padding: 10px 18px;
+}
+
+.editor-dialog .cancel-btn {
+    background: #e5e5e5;
+    color: #222;
+    padding: 10px 18px;
+}
+
+.editor-dialog .dialog-status {
+    min-height: 20px;
+    margin-top: 10px;
+    font-weight: 700;
+}
+
+.admin-mode-indicator {
+    font-weight: 700;
+}
+
+.member-card {
+    position: relative;
+}
+
+.member-card .admin-item-actions {
+    margin: 8px 0 0;
+}
+
+.pub-table .admin-item-actions {
+    justify-content: center;
+    margin-left: 0;
+}
+
+.publication-heading-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#publication-period-label {
+    font-size: 0.65em;
+    color: #777;
+    font-weight: normal;
+}
+
+.migration-note {
+    padding: 10px 12px;
+    border-left: 4px solid #ff9900;
+    background: #fff7e8;
+    color: #7a4a00;
+}
+
+.news-load-more {
+    display: block;
+    margin: 16px auto 0;
+    padding: 9px 18px;
+    background: #e8eef7;
+    color: #0056b3;
+}
+
+.professor-basic-edit {
+    margin-top: 12px;
+}
+
+.site-toast {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-18px);
+    z-index: 13000;
+    min-width: min(420px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: #fff;
+    background: #333;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.site-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.site-toast.success { background: #1b7f3a; }
+.site-toast.error { background: #b00020; }
+.site-toast.info { background: #0056b3; }
+
+body.intro-active {
+    overflow: hidden;
+}
+
+#intro-screen.intro-leaving {
+    transform: translateY(-100vh) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+@media (max-width: 700px) {
+    .admin-toolbar {
+        right: 10px;
+        left: 10px;
+        bottom: 10px;
+        justify-content: center;
+        border-radius: 12px;
+        flex-wrap: wrap;
+    }
+
+    .admin-section-heading {
+        align-items: flex-start;
+    }
+
+    .admin-editable-item {
+        flex-direction: column;
+    }
+
+    .admin-item-actions {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    body.admin-mode .admin-table-cell,
+    body.admin-mode .admin-only.admin-table-cell {
+        display: block !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
