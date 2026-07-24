@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理員登入 - 生物資訊演算與控制實驗室</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        .login-card {
+            width: min(430px, calc(100vw - 32px));
+            box-sizing: border-box;
+            padding: 34px;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+        }
+
+        h1 {
+            margin: 0 0 24px;
+            color: #0056b3;
+            text-align: center;
+            font-size: 1.7rem;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 12px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font: inherit;
+        }
+
+        button,
+        .back-link {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 14px;
+            border: 0;
+            border-radius: 6px;
+            font: inherit;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: #0056b3;
+            color: #fff;
+        }
+
+        .secondary {
+            margin-top: 10px;
+            background: #ececec;
+            color: #222;
+        }
+
+        .back-link {
+            margin-top: 16px;
+            color: #0056b3;
+        }
+
+        #login-error {
+            min-height: 22px;
+            margin-top: 14px;
+            color: #b00020;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        #logged-in-section {
+            text-align: center;
+        }
+
+        .user-box {
+            margin-bottom: 20px;
+            padding: 14px;
+            border-radius: 8px;
+            background: #eef5ff;
+            overflow-wrap: anywhere;
+        }
+    </style>
+</head>
+<body>
+    <main class="login-card">
+        <section id="login-section">
+            <h1>管理員登入</h1>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="emailInput">管理員 Email</label>
+                    <input id="emailInput" type="email" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="passwordInput">密碼</label>
+                    <input id="passwordInput" type="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="primary">登入並開啟管理模式</button>
+            </form>
+            <div id="login-error" role="status"></div>
+            <a href="index.html" class="back-link">返回網站首頁</a>
+        </section>
+
+        <section id="logged-in-section" hidden>
+            <h1>管理員已登入</h1>
+            <div class="user-box">
+                目前帳號：<strong id="current-user-email"></strong>
+            </div>
+            <button id="continue-btn" type="button" class="primary">返回網站並開啟管理模式</button>
+            <button id="logout-btn" type="button" class="secondary">登出</button>
+        </section>
+    </main>
+
+    <script type="module" src="js/admin-login.js"></script>
+</body>
+</html>
