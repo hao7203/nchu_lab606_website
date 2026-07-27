@@ -1,0 +1,489 @@
+/* =========================================================
+   分層式頁面轉場
+   - 首頁：科技掃描與中央脈衝
+   - 成員：短促數位 Glitch
+   - 研究：水平資料流
+   - 教授／著作：輕量 HUD 光幕
+   - 管理頁：簡潔淡入淡出
+   不顯示進度條，也不等待 Firebase。
+   ========================================================= */
+:root {
+    --pt-cyan: #48e8ff;
+    --pt-blue: #287dff;
+    --pt-deep: #06101f;
+    --pt-ease: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+html.pt-active,
+html.pt-active body {
+    min-height: 100%;
+}
+
+body.pt-body-leaving {
+    pointer-events: none;
+}
+
+.page-transition-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000;
+    overflow: hidden;
+    pointer-events: none;
+    visibility: visible;
+}
+
+html.pt-finished .page-transition-layer {
+    visibility: hidden;
+}
+
+.pt-home-layer,
+.pt-hud-layer,
+.pt-glitch-layer,
+.pt-stream-layer,
+.pt-fade-layer {
+    display: none;
+    position: absolute;
+    inset: 0;
+}
+
+/* =========================================================
+   1. 首頁：垂直掃描揭露
+   ========================================================= */
+html[data-page-transition="home"] .pt-home-layer {
+    display: block;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 48%, rgba(40, 125, 255, 0.22), transparent 38%),
+        linear-gradient(145deg, rgba(4, 15, 31, 0.985), rgba(1, 7, 16, 0.995));
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 720ms var(--pt-ease);
+}
+
+.pt-home-grid {
+    position: absolute;
+    inset: -12%;
+    opacity: 0.38;
+    transform: perspective(700px) rotateX(56deg) translateY(18%);
+    transform-origin: center bottom;
+    background-image:
+        linear-gradient(rgba(72, 232, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(72, 232, 255, 0.15) 1px, transparent 1px);
+    background-size: 44px 44px;
+    animation: pt-home-grid 2.4s linear infinite;
+}
+
+.pt-home-scan {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    top: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--pt-cyan), #fff, var(--pt-cyan), transparent);
+    box-shadow: 0 0 12px var(--pt-cyan), 0 0 36px rgba(72, 232, 255, 0.78);
+    transform: translateY(0);
+    transition: transform 720ms var(--pt-ease);
+}
+
+.pt-home-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 58px;
+    height: 58px;
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+    border: 1px solid rgba(72, 232, 255, 0.92);
+    background: rgba(4, 20, 38, 0.82);
+    box-shadow:
+        0 0 0 9px rgba(72, 232, 255, 0.045),
+        0 0 28px rgba(72, 232, 255, 0.58),
+        inset 0 0 16px rgba(40, 125, 255, 0.35);
+    transition: opacity 260ms ease, transform 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pt-home-core::after {
+    content: "";
+    position: absolute;
+    inset: 19px;
+    background: var(--pt-cyan);
+    box-shadow: 0 0 18px var(--pt-cyan);
+    animation: pt-home-core 420ms ease-in-out infinite alternate;
+}
+
+html[data-page-transition="home"].pt-entered .pt-home-layer {
+    clip-path: inset(100% 0 0 0);
+}
+
+html[data-page-transition="home"].pt-entered .pt-home-scan {
+    transform: translateY(100vh);
+}
+
+html[data-page-transition="home"].pt-entered .pt-home-core {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(135deg) scale(0.25);
+}
+
+html[data-page-transition="home"].pt-leaving .pt-home-layer {
+    transition-duration: 600ms;
+    clip-path: inset(0 0 0 0);
+}
+
+html[data-page-transition="home"].pt-leaving .pt-home-scan {
+    transition-duration: 600ms;
+    transform: translateY(0);
+}
+
+html[data-page-transition="home"].pt-leaving .pt-home-core {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+    transition-delay: 160ms;
+}
+
+html[data-page-transition="home"].pt-leaving body > *:not(.page-transition-layer):not(script) {
+    transform: scale(0.985);
+    filter: brightness(0.84) blur(1px);
+    transition: transform 600ms ease, filter 600ms ease;
+}
+
+/* =========================================================
+   2. 教授／著作：輕量 HUD 光幕
+   ========================================================= */
+html[data-page-transition="hud"] .pt-hud-layer {
+    display: block;
+}
+
+.pt-hud-sweep {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -38%;
+    width: 38%;
+    opacity: 0;
+    transform: skewX(-12deg);
+    background: linear-gradient(90deg, transparent, rgba(72, 232, 255, 0.10), rgba(72, 232, 255, 0.42), transparent);
+    box-shadow: 18px 0 35px rgba(72, 232, 255, 0.18);
+}
+
+.pt-hud-line {
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    height: 1px;
+    opacity: 0;
+    background: linear-gradient(90deg, transparent, rgba(72, 232, 255, 0.76), transparent);
+}
+
+.pt-hud-line--top { top: 18%; }
+.pt-hud-line--bottom { bottom: 18%; }
+
+html[data-page-transition="hud"].pt-entered .pt-hud-sweep {
+    animation: pt-hud-enter 460ms ease-out both;
+}
+
+html[data-page-transition="hud"].pt-entered .pt-hud-line {
+    animation: pt-hud-line 420ms ease both;
+}
+
+html[data-page-transition="hud"].pt-active:not(.pt-entered) body > *:not(.page-transition-layer):not(script) {
+    opacity: 0.35;
+    transform: translateY(8px);
+}
+
+html[data-page-transition="hud"].pt-entered body > *:not(.page-transition-layer):not(script) {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 360ms ease, transform 420ms ease;
+}
+
+html[data-page-transition="hud"].pt-leaving .pt-hud-sweep {
+    animation: pt-hud-exit 390ms ease-in both;
+}
+
+html[data-page-transition="hud"].pt-leaving .pt-hud-line {
+    animation: pt-hud-line 340ms ease reverse both;
+}
+
+html[data-page-transition="hud"].pt-leaving body > *:not(.page-transition-layer):not(script) {
+    opacity: 0.28;
+    transform: translateY(-7px);
+    filter: blur(0.7px);
+    transition: opacity 330ms ease, transform 390ms ease, filter 330ms ease;
+}
+
+/* =========================================================
+   3. 成員頁：Glitch
+   ========================================================= */
+html[data-page-transition="glitch"] .pt-glitch-layer {
+    display: block;
+    background: rgba(3, 12, 24, 0.02);
+}
+
+.pt-glitch-layer span {
+    position: absolute;
+    left: -8%;
+    width: 116%;
+    height: 3px;
+    opacity: 0;
+    background: linear-gradient(90deg, transparent 4%, var(--pt-cyan) 24%, #fff 49%, var(--pt-blue) 72%, transparent 96%);
+    box-shadow: 0 0 12px rgba(72, 232, 255, 0.74);
+}
+
+.pt-glitch-layer span:nth-child(1) { top: 14%; }
+.pt-glitch-layer span:nth-child(2) { top: 29%; height: 7px; }
+.pt-glitch-layer span:nth-child(3) { top: 45%; }
+.pt-glitch-layer span:nth-child(4) { top: 61%; height: 5px; }
+.pt-glitch-layer span:nth-child(5) { top: 76%; }
+.pt-glitch-layer span:nth-child(6) { top: 88%; height: 2px; }
+
+html[data-page-transition="glitch"].pt-entered .pt-glitch-layer span {
+    animation: pt-glitch-bars-in 440ms steps(2, end) both;
+}
+
+html[data-page-transition="glitch"].pt-entered .pt-glitch-layer span:nth-child(even) {
+    animation-direction: reverse;
+}
+
+html[data-page-transition="glitch"].pt-active:not(.pt-entered) body > *:not(.page-transition-layer):not(script) {
+    opacity: 0;
+}
+
+html[data-page-transition="glitch"].pt-entered body > *:not(.page-transition-layer):not(script) {
+    animation: pt-glitch-content-in 470ms steps(1, end) both;
+}
+
+html[data-page-transition="glitch"].pt-leaving .pt-glitch-layer span {
+    animation: pt-glitch-bars-out 420ms steps(2, end) both;
+}
+
+html[data-page-transition="glitch"].pt-leaving .pt-glitch-layer span:nth-child(odd) {
+    animation-direction: reverse;
+}
+
+html[data-page-transition="glitch"].pt-leaving body > *:not(.page-transition-layer):not(script) {
+    animation: pt-glitch-content-out 420ms steps(1, end) both;
+}
+
+/* =========================================================
+   4. 研究頁：水平資料流
+   ========================================================= */
+html[data-page-transition="stream"] .pt-stream-layer {
+    display: block;
+    overflow: hidden;
+}
+
+.pt-stream-layer span {
+    position: absolute;
+    left: -45%;
+    width: 42%;
+    height: 1px;
+    opacity: 0;
+    background: linear-gradient(90deg, transparent, rgba(72, 232, 255, 0.95), #fff, transparent);
+    box-shadow: 0 0 10px rgba(72, 232, 255, 0.62);
+}
+
+.pt-stream-layer span:nth-of-type(1) { top: 12%; width: 28%; }
+.pt-stream-layer span:nth-of-type(2) { top: 24%; width: 48%; }
+.pt-stream-layer span:nth-of-type(3) { top: 36%; width: 34%; }
+.pt-stream-layer span:nth-of-type(4) { top: 48%; width: 55%; }
+.pt-stream-layer span:nth-of-type(5) { top: 61%; width: 38%; }
+.pt-stream-layer span:nth-of-type(6) { top: 72%; width: 46%; }
+.pt-stream-layer span:nth-of-type(7) { top: 84%; width: 31%; }
+.pt-stream-layer span:nth-of-type(8) { top: 93%; width: 52%; }
+
+.pt-stream-flare {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: linear-gradient(90deg, transparent 20%, rgba(40, 125, 255, 0.08) 48%, rgba(72, 232, 255, 0.15) 50%, transparent 80%);
+}
+
+html[data-page-transition="stream"].pt-entered .pt-stream-layer span {
+    animation: pt-stream-in 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+html[data-page-transition="stream"].pt-entered .pt-stream-layer span:nth-of-type(2n) { animation-delay: 35ms; }
+html[data-page-transition="stream"].pt-entered .pt-stream-layer span:nth-of-type(3n) { animation-delay: 70ms; }
+html[data-page-transition="stream"].pt-entered .pt-stream-flare { animation: pt-stream-flare 520ms ease both; }
+
+html[data-page-transition="stream"].pt-active:not(.pt-entered) body > *:not(.page-transition-layer):not(script) {
+    opacity: 0;
+    transform: translateX(22px);
+}
+
+html[data-page-transition="stream"].pt-entered body > *:not(.page-transition-layer):not(script) {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 440ms ease, transform 520ms var(--pt-ease);
+}
+
+html[data-page-transition="stream"].pt-leaving .pt-stream-layer span {
+    animation: pt-stream-out 470ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+html[data-page-transition="stream"].pt-leaving .pt-stream-flare {
+    animation: pt-stream-flare 430ms ease reverse both;
+}
+
+html[data-page-transition="stream"].pt-leaving body > *:not(.page-transition-layer):not(script) {
+    opacity: 0;
+    transform: translateX(-24px);
+    transition: opacity 380ms ease, transform 470ms var(--pt-ease);
+}
+
+/* =========================================================
+   5. 管理頁：淡入淡出
+   ========================================================= */
+html[data-page-transition="fade"] .pt-fade-layer {
+    display: block;
+    background: rgba(4, 14, 28, 0.92);
+    opacity: 1;
+    transition: opacity 280ms ease;
+}
+
+html[data-page-transition="fade"].pt-entered .pt-fade-layer {
+    opacity: 0;
+}
+
+html[data-page-transition="fade"].pt-leaving .pt-fade-layer {
+    opacity: 1;
+    transition-duration: 220ms;
+}
+
+html[data-page-transition="fade"].pt-active:not(.pt-entered) body > *:not(.page-transition-layer):not(script) {
+    opacity: 0;
+}
+
+html[data-page-transition="fade"].pt-entered body > *:not(.page-transition-layer):not(script) {
+    opacity: 1;
+    transition: opacity 250ms ease;
+}
+
+html[data-page-transition="fade"].pt-leaving body > *:not(.page-transition-layer):not(script) {
+    opacity: 0;
+    transition: opacity 190ms ease;
+}
+
+/* =========================================================
+   動畫
+   ========================================================= */
+@keyframes pt-home-grid {
+    from { background-position: 0 0, 0 0; }
+    to { background-position: 44px 44px, 44px 44px; }
+}
+
+@keyframes pt-home-core {
+    from { opacity: 0.4; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes pt-hud-enter {
+    0% { left: -38%; opacity: 0; }
+    18% { opacity: 0.9; }
+    100% { left: 112%; opacity: 0; }
+}
+
+@keyframes pt-hud-exit {
+    0% { left: 112%; opacity: 0; }
+    18% { opacity: 0.9; }
+    100% { left: -38%; opacity: 0; }
+}
+
+@keyframes pt-hud-line {
+    0% { opacity: 0; transform: scaleX(0.2); }
+    42% { opacity: 0.9; }
+    100% { opacity: 0; transform: scaleX(1); }
+}
+
+@keyframes pt-glitch-bars-in {
+    0% { opacity: 0; transform: translateX(-18%); }
+    18% { opacity: 0.9; transform: translateX(8%); }
+    34% { opacity: 0.2; transform: translateX(-4%); }
+    58% { opacity: 0.8; transform: translateX(14%); }
+    100% { opacity: 0; transform: translateX(38%); }
+}
+
+@keyframes pt-glitch-bars-out {
+    0% { opacity: 0; transform: translateX(36%); }
+    20% { opacity: 0.9; transform: translateX(-8%); }
+    48% { opacity: 0.25; transform: translateX(6%); }
+    74% { opacity: 0.85; transform: translateX(-14%); }
+    100% { opacity: 0; transform: translateX(-38%); }
+}
+
+@keyframes pt-glitch-content-in {
+    0% { opacity: 0; transform: translateX(-10px); filter: contrast(1.4) hue-rotate(18deg); }
+    22% { opacity: 0.65; transform: translateX(7px); clip-path: inset(18% 0 53% 0); }
+    39% { opacity: 0.42; transform: translateX(-4px); clip-path: inset(62% 0 9% 0); }
+    58% { opacity: 0.86; transform: translateX(3px); clip-path: inset(7% 0 74% 0); }
+    76% { opacity: 0.68; transform: translateX(-2px); clip-path: inset(0); }
+    100% { opacity: 1; transform: translateX(0); filter: none; clip-path: inset(0); }
+}
+
+@keyframes pt-glitch-content-out {
+    0% { opacity: 1; transform: translateX(0); filter: none; clip-path: inset(0); }
+    24% { opacity: 0.68; transform: translateX(5px); clip-path: inset(58% 0 10% 0); }
+    48% { opacity: 0.85; transform: translateX(-7px); clip-path: inset(12% 0 68% 0); }
+    68% { opacity: 0.34; transform: translateX(8px); clip-path: inset(76% 0 4% 0); }
+    100% { opacity: 0; transform: translateX(-12px); filter: contrast(1.5) hue-rotate(-20deg); }
+}
+
+@keyframes pt-stream-in {
+    0% { left: -45%; opacity: 0; }
+    22% { opacity: 0.95; }
+    100% { left: 112%; opacity: 0; }
+}
+
+@keyframes pt-stream-out {
+    0% { left: 112%; opacity: 0; }
+    22% { opacity: 0.95; }
+    100% { left: -45%; opacity: 0; }
+}
+
+@keyframes pt-stream-flare {
+    0% { opacity: 0; transform: translateX(-36%); }
+    44% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(36%); }
+}
+
+@media (max-width: 640px) {
+    .pt-home-grid {
+        background-size: 30px 30px;
+    }
+
+    .pt-home-core {
+        width: 46px;
+        height: 46px;
+    }
+
+    .pt-home-core::after {
+        inset: 15px;
+    }
+
+    .pt-glitch-layer span:nth-child(even),
+    .pt-stream-layer span:nth-of-type(even) {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pt-home-grid,
+    .pt-home-core::after,
+    .pt-hud-sweep,
+    .pt-hud-line,
+    .pt-glitch-layer span,
+    .pt-stream-layer span,
+    .pt-stream-flare {
+        animation: none !important;
+    }
+
+    html[data-page-transition] body > *:not(.page-transition-layer):not(script) {
+        transform: none !important;
+        filter: none !important;
+        clip-path: none !important;
+        transition-duration: 150ms !important;
+    }
+
+    html[data-page-transition="home"] .pt-home-layer,
+    html[data-page-transition="fade"] .pt-fade-layer {
+        transition-duration: 150ms !important;
+    }
+}
